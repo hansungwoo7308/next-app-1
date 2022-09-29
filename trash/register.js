@@ -1,3 +1,4 @@
+import Head from "next/head";
 import { useRouter } from "next/router";
 import { useState, useRef, useEffect } from "react";
 import * as S from "../styles/register.styled";
@@ -161,6 +162,9 @@ const Register = () => {
 
   return (
     <S.Container>
+      <Head>
+        <title>Register</title>
+      </Head>
       <div
         style={{
           border: "3px dashed var(--main--color)",

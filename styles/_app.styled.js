@@ -29,18 +29,19 @@ export const GlobalStyles = createGlobalStyle`
 
   :root{
     --main--color: #00704a;
-    --second-color: #1e3932;
+    --second--color: #1e3932;
   }
 
   *::selection{
     color: #fff;
-    background: var(--main--color);
+    /* background: var(--main--color); */
+    background-color: coral;
   }
   
   img {
     width: 100%;
     height: 100%;
-    object-fit: contain;
+    object-fit: cover;
     /* object-position: center; */
     /* border: 3px solid red; */
   }
@@ -48,8 +49,18 @@ export const GlobalStyles = createGlobalStyle`
 
   // Class -----------------------------------------
 
-  .input{
-    padding: 10px;
+  .container {
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    /* border: 3px dashed; */
+  }
+
+  .input {
+    padding: 8px;
 
     // outline, border, background, color
     outline: none;
@@ -75,7 +86,7 @@ export const GlobalStyles = createGlobalStyle`
     }
   }
 
-  .button{
+  .button {
     width: 100%;
     padding: 10px;
     cursor: pointer;

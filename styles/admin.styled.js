@@ -1,16 +1,23 @@
 import styled from "styled-components";
 
 export const Container = styled.div`
-  width: 80%;
-  min-width: 700px;
+  width: 100%;
   height: calc(100vh - 80px);
   margin-top: 80px;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
+`;
+
+export const Layout = styled.div`
+  width: 80%;
+  height: calc(100vh - 80px);
+  display: flex;
+  /* flex-direction: column; */
+  align-items: center;
+  justify-content: center;
   border: 3px dashed black;
-  /* background-color: #00704a; */
 `;
 
 export const Admin = styled.div`

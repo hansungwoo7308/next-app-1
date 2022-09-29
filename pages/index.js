@@ -9,7 +9,7 @@ import Landing from "../src/components/Landing";
 // import { Divider, Header, Loader } from "semantic-ui-react";
 // import { useEffect, useState } from "react";
 
-export default function Home({ list }) {
+export default function Home() {
   // Server Side Rendering
   // const [list, setList] = useState([]);
   // const [isLoading, setIsLoading] = useState(true);

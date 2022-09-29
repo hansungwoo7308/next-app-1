@@ -3,7 +3,7 @@ import { useState } from "react";
 import * as S from "../../styles/Landing.styled";
 
 const Landing = () => {
-  const [productIndex, setProductIndex] = useState(2);
+  const [productIndex, setProductIndex] = useState("Coffee-1");
 
   // const handleClick = (index) => {
   //   setProductIndex(index);
@@ -23,20 +23,27 @@ const Landing = () => {
           <S.BuyButton>Buy Now</S.BuyButton>
         </S.Infomation>
         <S.Product>
-          <Link href={"/products"}>
-            <a href="">
-              <img
-                src={`/images/2022_Summer2_main_drink_0${productIndex}.png`}
-              />
+          <Link
+            // href={"/products"}
+            href={"#"}
+          >
+            <a>
+              <img src={`/images/${productIndex}.png`} />
             </a>
           </Link>
         </S.Product>
         <S.ProductButton>
-          <a onClick={() => setProductIndex(2)}>
-            <img src={"/images/2022_Summer2_main_drink_02.png"} alt="" />
+          <a onClick={() => setProductIndex("Coffee-1")}>
+            <img src={"/images/Coffee-1.png"} alt="" />
           </a>
-          <a onClick={() => setProductIndex(3)}>
-            <img src={"/images/2022_Summer2_main_drink_03.png"} alt="" />
+          <a onClick={() => setProductIndex("Coffee-2")}>
+            <img src={"/images/Coffee-2.png"} alt="" />
+          </a>
+          <a onClick={() => setProductIndex("Coffee-3")}>
+            <img src={"/images/Coffee-3.png"} alt="" />
+          </a>
+          <a onClick={() => setProductIndex("Coffee-4")}>
+            <img src={"/images/Coffee-4.png"} alt="" />
           </a>
         </S.ProductButton>
       </S.Layout>

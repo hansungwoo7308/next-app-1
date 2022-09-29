@@ -1,14 +1,24 @@
 import styled from "styled-components";
 
 export const Container = styled.div`
-  width: 80%;
+  width: 100%;
   height: calc(100vh - 80px);
   margin-top: 80px;
-  border: 3px dashed black;
+  /* border: 3px dashed black; */
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  background-color: #333;
+`;
+
+export const Layout = styled.div`
+  width: 80%;
+  height: calc(100vh - 80px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 3px dashed;
 `;
 
 export const Form = styled.form`

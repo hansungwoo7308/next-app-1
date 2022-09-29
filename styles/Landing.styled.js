@@ -13,22 +13,31 @@ export const Container = styled.div`
 
 export const Layout = styled.div`
   width: 80%;
+  min-width: 1000px;
   height: 100%;
   display: flex;
   align-items: center;
-  justify-content: center;
-  gap: 5%;
+  justify-content: space-evenly;
+  /* justify-content: center; */
+  /* gap: 5%; */
   border: 3px dashed pink;
 `;
 
 // Elements ////////////////////////////////////
 export const Infomation = styled.div`
-  width: 40%;
-  border: 3px dashed;
+  color: white;
+  /* width: 40%; */
+  width: 400px;
+  height: 400px;
+  /* border: 3px dashed; */
+  /* padding: 20px; */
+  margin-bottom: 80px;
 `;
 
 export const Headline = styled.h1`
   margin-bottom: 30px;
+  font-size: 70px;
+  font-weight: 900;
 `;
 
 export const Phrase = styled.p`
@@ -38,11 +47,13 @@ export const Phrase = styled.p`
 export const BuyButton = styled.button`
   width: 200px;
   border: none;
-  background-color: black;
-  color: white;
+  background-color: white;
+  color: var(--main--color);
+  font-weight: 800;
   padding: 20px;
   font-size: 18px;
   cursor: pointer;
+  border-radius: 15px;
 
   &:hover {
     background-color: coral;
@@ -50,33 +61,36 @@ export const BuyButton = styled.button`
 `;
 
 export const Product = styled.div`
-  width: 30%;
-  max-width: 300px;
-  border: 3px dashed;
+  height: 400px;
+  /* border: 3px dashed; */
+  margin-bottom: 80px;
+
+  img {
+    object-fit: contain;
+  }
 `;
-// export const Image = styled.img`
-//   /* width: 40%;
-//   height: 500px; */
-//   width: 300px;
-//   height: 300px;
-//   border: 3px dashed pink;
-//   object-fit: contain;
-// `;
 
 export const ProductButton = styled.div`
-  border: 3px dashed;
+  /* border: 3px dashed; */
   position: absolute;
-  bottom: 5%;
+  bottom: 80px;
   display: flex;
-  gap: 50px;
+  gap: 20px;
 
   a {
-    width: 100px;
+    height: 100px;
     cursor: pointer;
+    transition: all 0.5s;
 
     &:hover {
       /* border: 3px solid; */
-      background: white;
+      background: transparent;
+      /* transform: scale(1.1); */
+      transform: translateY(-10px);
     }
+  }
+
+  img {
+    object-fit: contain;
   }
 `;

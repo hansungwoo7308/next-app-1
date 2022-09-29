@@ -1,4 +1,5 @@
 import Axios from "axios";
+import Head from "next/head";
 import { useRouter } from "next/router";
 import { useState } from "react";
 import * as S from "../styles/login.styled";
@@ -36,6 +37,9 @@ const Login = () => {
 
   return (
     <S.Container>
+      <Head>
+        <title>Log In</title>
+      </Head>
       {/* <h1>Login Form</h1> */}
       <S.Form onSubmit={handleLogin}>
         <S.Input

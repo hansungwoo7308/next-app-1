@@ -1,21 +1,51 @@
 import styled from "styled-components";
 
 export const Container = styled.div`
-  width: 80%;
+  width: 100%;
   height: calc(100vh - 80px);
+  /* height: 100vh; */
   margin-top: 80px;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  border: 3px dashed black;
+  /* border: 3px dashed black; */
   /* background-color: gray; */
+`;
+
+export const Layout = styled.div`
+  width: 80%;
+  min-width: 1000px;
+  height: calc(100vh - 80px);
+  display: flex;
+  /* flex-direction: column; */
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  border: 3px dashed;
+`;
+
+export const Billboard = styled.div`
+  border: 3px dashed var(--main--color);
+  background: #ddd;
+  border-radius: 15px;
+  padding: 50px;
+
+  h1 {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+
+  div {
+    display: flex;
+    gap: 20px;
+  }
 `;
 
 export const Form = styled.form`
   /* width: 50%; */
-  min-width: 500px;
-  height: 50%;
+  min-width: 400px;
+  /* height: 100%; */
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -24,18 +54,18 @@ export const Form = styled.form`
   border: 3px dashed green;
   border-radius: 15px;
   background-color: #ddd;
+  padding: 100px;
 `;
-export const Title = styled.h1``;
+
+export const Div = styled.div``;
+
 export const Input = styled.input`
-  width: 50%;
-  padding: 10px;
+  width: 200px;
 `;
-// export const Email = styled.input``;
-// export const Password = styled.input``;
+
 export const Button = styled.button`
   outline: none;
-  /* margin-top: 30px; */
-  width: 50%;
+  width: 200px;
   padding: 10px;
-  background-color: ${(props) => (props.disabled ? "#eee" : "darkgray")};
+  margin-top: 10px;
 `;

@@ -1,5 +1,5 @@
 // import Slider from "../src/components/Slider";
-import * as S from "../styles/about.styled";
+import * as S from "../../styles/about.styled";
 
 const About = () => {
   return (
@@ -12,6 +12,9 @@ const About = () => {
         <div>section2</div>
         <div>section2</div>
       </S.Section1>
+      {/* <progress value="70" max="100">
+          70%
+        </progress> */}
     </S.Container>
   );
 };
