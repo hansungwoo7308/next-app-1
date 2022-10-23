@@ -1,37 +1,64 @@
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 
 export const Container = styled.div`
+  width: 100%;
   height: 100%;
+  display: flex;
+  justify-content: space-between;
+  /* border: 3px solid red; */
+
+  a {
+    height: 100%;
+    display: flex;
+    align-items: center;
+    /* justify-content: center; */
+    text-transform: uppercase;
+  }
+  a:hover {
+    color: #fff;
+  }
 `;
 
-// Main Menu --------------------------------
+// Logo --------------------------------
+export const Logo = styled.div`
+  /* ${(props) => {
+    if (props.clickItem) {
+      return css`
+        color: coral;
+        &:hover > a {
+          color: coral;
+        }
+        ul {
+          color: #ccc;
+        }
+      `;
+    }
+  }} */
+`;
+
+// Menu --------------------------------
 export const List = styled.ul`
   height: 100%;
   display: flex;
   gap: 3rem;
   list-style: none;
   position: relative;
+  /* border: 3px solid red; */
   /* align-items: center; */
-  a {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-  a:hover {
-    color: #fff;
-  }
 
   @media screen and (max-width: 1000px) {
     width: 100%;
-    height: calc(100vh - 80px);
+    height: calc(100vh - var(--header-height));
     display: flex;
     flex-direction: column;
     justify-content: center;
     position: absolute;
-    top: 80px;
+    top: var(--header-height);
     left: ${(props) => (props.isClicked ? 0 : "-100%")};
+    // 컴포넌트의 상태에 따라 변경(스타일)...
     background-color: rgba(0, 0, 0, 0.7);
     transition: left 0.5s;
+    z-index: 100;
   }
 `;
 
@@ -52,9 +79,20 @@ export const Item = styled.li`
     position: absolute;
     bottom: 0;
   }
-  a {
-    padding: 10px;
-  }
+
+  ${(props) => {
+    if (props.clickItem) {
+      return css`
+        color: coral;
+        &:hover > a {
+          color: coral;
+        }
+        ul {
+          color: #ccc;
+        }
+      `;
+    }
+  }}
 
   // Item:hover > after
   &:hover::after {
@@ -74,36 +112,39 @@ export const Item = styled.li`
     &:hover::after {
       background-color: transparent;
     }
+
+    // Item:hover > SubList
+    &:hover > ul {
+      display: none;
+    }
   }
 `;
 
 // Sub Menu --------------------------------
 export const SubList = styled.ul`
-  // 기본설정
   position: absolute;
   top: 100%;
   display: flex;
   flex-direction: column;
   list-style: none;
   display: none;
-
-  // 추가설정
+  /*  */
   /* border: 1px solid red; */
   background-color: #111;
   gap: 10px;
   padding: 10px;
-
-  @media screen and (max-width: 1000px) {
-    display: none;
-  }
 `;
 
 export const SubItem = styled.li`
   position: relative;
   white-space: nowrap;
+  /*  */
   /* background-color: lightseagreen; */
 
-  // Asdie Menu Setting
+  a {
+    padding: 10px;
+  }
+
   &:hover > ul {
     display: flex;
   }
@@ -127,21 +168,22 @@ export const AsideList = styled.ul`
   padding: 10px;
   display: none;
 `;
+
 export const AsideItem = styled.li`
   height: 30px;
   white-space: nowrap;
   /* background-color: skyblue; */
 `;
 
-/////
-export const Hamburger = styled.h1`
+// Hamburger --------------------------------
+export const Hamburger = styled.div`
   width: 80px;
   height: 100%;
   text-align: center;
   display: none;
 
   &:hover {
-    color: white;
+    color: #fff;
   }
 
   @media screen and (max-width: 1000px) {

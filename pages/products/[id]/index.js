@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import * as S from "../../../styles/product.styled";
+import * as S from "../../../styles/pages/product.styled";
 
 export const getStaticPaths = async () => {
   const data = await fetch(

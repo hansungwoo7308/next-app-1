@@ -4,11 +4,11 @@ import { HYDRATE } from "next-redux-wrapper";
 export const usersSlice = createSlice({
   name: "users",
   initialState: {
-    users: [],
+    value: ["tom"],
   },
   reducers: {
-    addUser: (state, action) => {
-      state.users = [...state.users, action.payload]; // 스프레드 오퍼레이터에 의한 샐로카피와 오버라이드...
+    add: (state, action) => {
+      state.value = [...state.value, action.payload]; // 스프레드 오퍼레이터에 의한 샐로카피와 오버라이드...
       // state.users = action.payload;
     },
   },
@@ -23,6 +23,6 @@ export const usersSlice = createSlice({
   // },
 });
 
-export const { addUser } = usersSlice.actions; // 액션사용을 위한...
+export const { add } = usersSlice.actions; // 액션사용을 위한...
 
 export default usersSlice.reducer; // 스토어셋팅을 위한...

@@ -1,19 +1,16 @@
 import Axios from "axios";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
-import * as S from "../../styles/admin.styled";
+import * as S from "../../styles/pages/admin.styled";
 
 const Admin = () => {
   const router = useRouter();
   const [isLogin, setIsLogin] = useState(false);
 
-  // 로그인 상태체크 핸들러
   const checkLogin = () => {
     Axios.get("/api/isLogin").then((res) => {
       if (res.status === 200 && res.data) {
-        console.group("로그인 상태 확인 성공!");
-        console.log("로그인 상태 데이터 from isLogin api : ", res.data);
-        console.groupEnd();
+        console.log("response : ", res);
         setIsLogin(true);
       } else {
         router.push("/auth/login");
@@ -32,14 +29,13 @@ const Admin = () => {
 
   useEffect(() => {
     checkLogin();
-  }, []);
+  });
 
   return (
     <S.Container>
       <S.Layout>
         {isLogin && (
           <S.Admin>
-            {/* <h1>Admin Page</h1> */}
             <S.Profile>
               <S.Image>
                 <img
@@ -47,7 +43,6 @@ const Admin = () => {
                   alt=""
                 />
               </S.Image>
-              {/* <S.Info>Personal Information</S.Info> */}
               <S.Info>
                 <h5>Personal Infomation</h5>
                 <p>

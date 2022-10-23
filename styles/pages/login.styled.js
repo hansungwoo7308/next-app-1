@@ -2,8 +2,8 @@ import styled from "styled-components";
 
 export const Container = styled.div`
   width: 100%;
-  height: calc(100vh - 80px);
-  margin-top: 80px;
+  margin-top: var(--header-height);
+  /* height: calc(100vh - var(--header-height)); */
   /* border: 3px dashed black; */
   display: flex;
   flex-direction: column;
@@ -14,8 +14,9 @@ export const Container = styled.div`
 
 export const Layout = styled.div`
   width: 80%;
-  height: calc(100vh - 80px);
+  height: calc(100vh - var(--header-height));
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
   border: 3px dashed;

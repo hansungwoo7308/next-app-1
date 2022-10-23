@@ -10,7 +10,7 @@ const MyApp = ({ Component, pageProps }) => {
       <S.GlobalStyles />
       <Header />
       <Component {...pageProps} />
-      <Footer />
+      {/* <Footer /> */}
     </S.Container>
   );
 };
@@ -39,4 +39,5 @@ const MyApp = ({ Component, pageProps }) => {
 //   return { pageProps: pageProps, store: ctx.store };
 // });
 
+// export default MyApp;
 export default wrapper.withRedux(MyApp);

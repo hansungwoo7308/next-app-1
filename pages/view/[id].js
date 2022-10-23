@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 // import { useRouter } from "next/router";
 // import { useEffect, useState } from "react";
 // import { Loader } from "semantic-ui-react";
-import Item from "../../src/components/Item";
+// import Item from "../../src/components/Item";
 
 // Server Environment
 // export async function getServerSideProps(context) {

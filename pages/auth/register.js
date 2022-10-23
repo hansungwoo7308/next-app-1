@@ -2,7 +2,7 @@ import Head from "next/head";
 import { useRouter } from "next/router";
 import { useState, useRef, useEffect } from "react";
 import { useForm } from "react-hook-form";
-import * as S from "../../styles/register.styled";
+import * as S from "../../styles/pages/register.styled";
 
 const Register = () => {
   // 컴포넌트 로컬 스테이트...
@@ -33,10 +33,11 @@ const Register = () => {
   const onSubmit = (data) => {
     console.log("data : ", data);
     setValues({ ...data });
+    // setValues({ data });
 
-    setTimeout(() => {
-      router.push("/auth/login");
-    }, 3000);
+    // setTimeout(() => {
+    //   router.push("/auth/login");
+    // }, 3000);
   };
 
   // 부가작업 > 포커스 셋팅...
@@ -45,7 +46,7 @@ const Register = () => {
   }, [setFocus]);
 
   // console.log('wath("name") : ', watch("name"));
-  console.log("rendered...");
+  // console.log("rendered...");
 
   return (
     <S.Container>

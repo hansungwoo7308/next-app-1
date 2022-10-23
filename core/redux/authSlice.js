@@ -5,13 +5,13 @@ import authServices from "../../src/services/auth.service";
 import { setMessage } from "./messageSlice";
 
 let user;
-if (typeof window !== "undefined") {
-  // server 에서 로컬스토리지의 값을 가져오고 싶지만...
-  // client 에서는 아직 브라우저(window object)가 존재하지 않는 상태다.
-  // So, window is not undefined...
-  user = JSON.parse(localStorage.getItem("user"));
-  //   console.log("user : ", user);
-}
+// if (typeof window !== "undefined") {
+//   // server 에서 로컬스토리지의 값을 가져오고 싶지만...
+//   // client 에서는 아직 브라우저(window object)가 존재하지 않는 상태다.
+//   // So, window is not undefined...
+//   user = JSON.parse(localStorage.getItem("user"));
+//   //   console.log("user : ", user);
+// }
 
 export const register = createAsyncThunk(
   "auth/register",

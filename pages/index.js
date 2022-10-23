@@ -1,15 +1,29 @@
 import Head from "next/head";
-// import Items from "../src/components/Items";
 import Axios from "axios";
-
-// Styles
-import * as S from "../styles/Home.styled";
+import * as S from "../styles/pages/Home.styled";
 import Slider from "../src/components/Slider";
+import Slider2 from "../src/components/Slider2";
 import Landing from "../src/components/Landing";
-// import { Divider, Header, Loader } from "semantic-ui-react";
+import { useSelector } from "react-redux";
+import Carousel from "../src/components/Carousel";
 // import { useEffect, useState } from "react";
 
-export default function Home() {
+export const getStaticProps = async () => {
+  const ACCESS_KEY = `dOIA85pHFvSq2jSkD2L06etILKKN0oQCKZzJ3CNYCPE`;
+  // const URL = `https://api.unsplash.com/photos`;
+  const URL = `https://api.unsplash.com/photos/?client_id=${ACCESS_KEY}`;
+
+  const data = await fetch(URL).then((data) => data.json());
+
+  return {
+    props: {
+      data: data,
+    },
+  };
+};
+
+export default function Home({ data }) {
+  // console.log("data : ", data);
   // Server Side Rendering
   // const [list, setList] = useState([]);
   // const [isLoading, setIsLoading] = useState(true);
@@ -31,6 +45,9 @@ export default function Home() {
   //   getData();
   // }, []);
 
+  // const test = useSelector((state) => state);
+  // console.log("test : ", test);
+
   return (
     <S.Container>
       <Head>
@@ -38,9 +55,15 @@ export default function Home() {
         <meta name="description" content="Beauty Product" />
       </Head>
 
-      <Landing />
-      {/* <Slider /> */}
+      {/* <S.Layout>
+      </S.Layout> */}
+      {/* <Landing /> */}
+      <S.Layout2>
+        <Slider data={data} />
+        {/* <Carousel /> */}
+      </S.Layout2>
 
+      {/* <div style={{ height: "300px" }}></div> */}
       {/* Static Site Generation */}
       {/* <S.Home>
         <S.H1>Best Products</S.H1>
@@ -69,7 +92,6 @@ export default function Home() {
 }
 
 // Static Site Generation
-// return props of Home Page Component
 // export async function getStaticProps() {
 //   const apiUrl = process.env.apiUrl;
 //   const res = await Axios.get(apiUrl);

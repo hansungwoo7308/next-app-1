@@ -8,6 +8,7 @@ const nextConfig = {
       "via.placeholder.com",
       "jsonplaceholder.typicode.com",
       "picsum.photos",
+      "source.unsplash.com",
     ],
     // remotePatterns: [
     //   {

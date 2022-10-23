@@ -1,80 +1,145 @@
-import { useState } from "react";
-import {
-  IoMdArrowDropleftCircle,
-  IoMdArrowDroprightCircle,
-} from "react-icons/io";
-import * as S from "../../styles/Slider.styled";
+import { useEffect } from "react";
+import { useState, useRef } from "react";
+import * as S from "../../styles/components/Slider.styled";
+// import from ''
+import { IoMdArrowDropleft, IoMdArrowDropright } from "react-icons/io";
+import Image from "next/image";
 
-const data = [
-  {
-    title: "image1",
-    url: "https://cdn.pixabay.com/photo/2022/07/24/17/55/wind-energy-7342177_960_720.jpg",
-  },
-  {
-    title: "image2",
-    url: "https://cdn.pixabay.com/photo/2021/11/14/12/53/ship-6794508_960_720.jpg",
-  },
-  {
-    title: "image3",
-    url: "https://cdn.pixabay.com/photo/2022/08/03/08/11/sea-7362107_960_720.jpg",
-  },
-];
+const Slider = ({ data }) => {
+  // Data
+  // console.log("data : ", data);
 
-const Slider = () => {
-  const [imageIndex, setImageIndex] = useState(0);
+  // For Slider
+  const [direction, setDirection] = useState();
+  const carousel = useRef();
+  const slider = useRef();
 
-  const next = () => {
-    setImageIndex(imageIndex + 1);
-    if (imageIndex === data.length - 1) {
-      setImageIndex(0);
+  const sortSlider = () => {
+    if (direction === -1) {
+      slider.current.append(slider.current.firstElementChild);
     }
+
+    if (direction === 1) {
+      slider.current.prepend(slider.current.lastElementChild);
+    }
+  };
+
+  const setSlider = () => {
+    slider.current.style.transition = `none`;
+    slider.current.style.transform = `translate(0)`;
+    setTimeout(() => {
+      slider.current.style.transition = ``;
+    });
   };
 
   const prev = () => {
-    setImageIndex(imageIndex - 1);
-    if (imageIndex === 0) {
-      setImageIndex(data.length - 1);
+    if (direction === -1 || direction === undefined) {
+      slider.current.append(slider.current.firstElementChild);
+      setDirection(() => 1);
     }
+    setDirection(() => 1);
+    carousel.current.style.justifyContent = `flex-end`;
+    slider.current.style.transform = `translate(20%)`;
   };
 
-  const move = (index) => {
-    setImageIndex(index);
+  const next = () => {
+    if (direction === 1) {
+      slider.current.prepend(slider.current.lastElementChild);
+      setDirection(() => -1);
+    }
+    setDirection(() => -1);
+    carousel.current.style.justifyContent = `flex-start`;
+    slider.current.style.transform = `translate(-20%)`;
   };
+
+  // useEffect(() => {
+  //   setTimeout(() => {
+  //     next();
+  //   }, 1000);
+  //   setTimeout(() => {}, 1000);
+  // });
 
   return (
-    <S.Container>
-      <S.Image src={data[imageIndex].url} />
-      <S.ArrowButton onClick={prev} left>
-        <IoMdArrowDropleftCircle fill="white" size={100} />
-        {/* <svg
-          xmlns="http://www.w3.org/2000/svg"
-          viewBox="0 0 512 512"
-          fill="white"
+    <S.Container className="container">
+      <S.Carousel className="carousel" ref={carousel}>
+        <S.Slider
+          className="slider"
+          ref={slider}
+          onTransitionEnd={() => {
+            sortSlider();
+            setSlider();
+          }}
         >
-          <path d="M256 0C114.6 0 0 114.6 0 256c0 141.4 114.6 256 256 256s256-114.6 256-256C512 114.6 397.4 0 256 0zM310.6 345.4c12.5 12.5 12.5 32.75 0 45.25s-32.75 12.5-45.25 0l-112-112C147.1 272.4 144 264.2 144 256s3.125-16.38 9.375-22.62l112-112c12.5-12.5 32.75-12.5 45.25 0s12.5 32.75 0 45.25L221.3 256L310.6 345.4z" />
-        </svg> */}
-      </S.ArrowButton>
-      <S.ArrowButton onClick={next} right>
-        <IoMdArrowDroprightCircle fill="white" size={100} />
-        {/* <svg
-          xmlns="http://www.w3.org/2000/svg"
-          viewBox="0 0 512 512"
-          fill="white"
-        >
-          <path d="M256 0C114.6 0 0 114.6 0 256c0 141.4 114.6 256 256 256s256-114.6 256-256C512 114.6 397.4 0 256 0zM358.6 278.6l-112 112c-12.5 12.5-32.75 12.5-45.25 0s-12.5-32.75 0-45.25L290.8 256L201.4 166.6c-12.5-12.5-12.5-32.75 0-45.25s32.75-12.5 45.25 0l112 112C364.9 239.6 368 247.8 368 256S364.9 272.4 358.6 278.6z" />
-        </svg> */}
-      </S.ArrowButton>
-      <S.DotButtonContainer>
-        {data.map((item, index) => (
-          <S.DotButton
-            onClick={() => {
-              move(index);
-            }}
-            isClicked={imageIndex === index}
-            key={index}
-          />
-        ))}
-      </S.DotButtonContainer>
+          <section>
+            <Image
+              src="https://source.unsplash.com/random/?rain"
+              layout="fill"
+            />
+          </section>
+          <section>
+            <Image
+              src="https://source.unsplash.com/random/?coffee"
+              layout="fill"
+            />
+          </section>
+          <section>
+            <Image
+              src="https://source.unsplash.com/random/?river"
+              layout="fill"
+            />
+          </section>
+          <section>
+            <Image
+              src="https://source.unsplash.com/random/?cloud"
+              layout="fill"
+            />
+          </section>
+          <section>
+            <Image
+              src="https://source.unsplash.com/random/?train"
+              layout="fill"
+            />
+          </section>
+          {/* <Image src={() => "https://source.unsplash.com/random/?coffee"} />
+          <Image src={() => "https://source.unsplash.com/random/?river"} />
+          <Image src={() => "https://source.unsplash.com/random/?cloud"} />
+          <Image src={() => "https://source.unsplash.com/random/?train"} /> */}
+
+          {/* <img src="https://source.unsplash.com/random/?rain" /> */}
+          {/* <img src="https://source.unsplash.com/random/?coffee" /> */}
+          {/* <img src="https://source.unsplash.com/random/?river" /> */}
+          {/* <img src="https://source.unsplash.com/random/?cloud" /> */}
+          {/* <img src="https://source.unsplash.com/random/?train" /> */}
+          {/* <section>
+            <img src={data[0].urls.regular} alt="" />
+          </section>
+          <section>
+            <img src={data[1].urls.regular} alt="" />
+          </section>
+          <section>
+            <img src={data[2].urls.regular} alt="" />
+          </section>
+          <section>
+            <img src={data[3].urls.regular} alt="" />
+          </section>
+          <section>
+            <img src={data[4].urls.regular} alt="" />
+          </section> */}
+          {/* <section>section 1</section>
+          <section>section 2</section>
+          <section>section 3</section>
+          <section>section 4</section>
+          <section>section 5</section> */}
+        </S.Slider>
+        <S.Controls className="controls">
+          <div className="arrow prev" onClick={prev}>
+            <IoMdArrowDropleft size={70} />
+          </div>
+          <div className="arrow next" onClick={next}>
+            <IoMdArrowDropright size={70} />
+          </div>
+        </S.Controls>
+      </S.Carousel>
     </S.Container>
   );
 };

@@ -1,24 +1,31 @@
+import jwt from "jsonwebtoken";
+
 export default function handler(req, res) {
-  console.log("request : ", req);
-  // 포스트로 전송했으면...
+  // 요청된 이메일을 데이터베이스에서 있는지 찾는다.
+  // 있다면, 요청된 비밀번호를 데이터베이스에서 맞는지 확인한다.
+  // 확인되면, 토큰을 생성한다.
+
+  // console.log("-------request.body : ", req.body);
+  const { email, password } = req.body.user;
+  const KEY = "abc";
+
+  if (!req) {
+    res.status(404);
+    res.end("Error");
+    return;
+  }
   if (req.method === "POST") {
-    // 쿠키에 저장
-    // xml type 으로 전송된 셋헤더
+    res.status(200).json({ token: jwt.sign({ email, password }, KEY) });
     // Max-Age : 쿠키 생존 나이 : 3600 second = 1 hour
-    res.setHeader(
-      "Set-Cookie",
-      "a_name=cooooooooooooooooooookie;Max-Age=3600;HttpOnly,Secure"
-    );
-
-    // 상태코드(성공여부) 설정...
+    // res.setHeader(
+    //   "Set-Cookie",
+    //   "a_name=cooooooooooooooooooookie;Max-Age=3600;HttpOnly,Secure"
+    // );
     // Setting promise state...
-    res.statusCode = 200;
-
-    // 클라이언트로 보낼 응답객체 안에 데이터를 설정...
+    // res.statusCode = 200;
     // Storing my message to promise.data property
-    // res.json({ myMessage: "ok" });
-    res.json({ message: "myMessage..." });
+    // res.json({ message: "포스트방식으로 전송된 요청." });
   } else {
-    res.status(200).json({ message: "You are logging in.!" });
+    res.status(200).json({ message: "포스트방식으로 전송되지 않은 요청." });
   }
 }

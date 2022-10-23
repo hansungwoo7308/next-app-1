@@ -2,18 +2,19 @@ import styled from "styled-components";
 
 export const Container = styled.div`
   width: 100%;
-  margin-top: 80px;
-  height: calc(100vh - 80px);
-  overflow: hidden;
+  margin-top: var(--header-height);
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `;
 
 export const Layout = styled.div`
   width: 80%;
-  height: 100%;
+  height: calc(100vh - var(--header-height));
   display: flex;
-  align-items: center;
   justify-content: center;
-  border: 3px dashed blue;
+  align-items: center;
+  border: 3px dashed;
 `;
 
 ////////////////////////////////////////////

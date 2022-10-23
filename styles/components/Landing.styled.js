@@ -1,36 +1,32 @@
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 
-// Layout ////////////////////////////////////
 export const Container = styled.div`
   width: 100%;
-  height: calc(100vh - 80px);
-  /* border: 3px dashed red; */
+  height: 100%;
   display: flex;
+  flex-direction: column;
   align-items: center;
-  justify-content: center;
+  justify-content: space-evenly;
   background-color: #00704a;
+  position: relative;
+  /* border: 3px dashed coral; */
 `;
 
 export const Layout = styled.div`
-  width: 80%;
-  min-width: 1000px;
-  height: 100%;
-  display: flex;
+  /* width: 80%; */
+  /* min-width: 1000px; */
+  /* height: calc(100vh - var(--header-height)); */
+  /* display: flex;
   align-items: center;
-  justify-content: space-evenly;
-  /* justify-content: center; */
-  /* gap: 5%; */
-  border: 3px dashed pink;
+  justify-content: space-evenly; */
+  position: relative;
+  /* border: 3px dashed coral; */
 `;
 
-// Elements ////////////////////////////////////
 export const Infomation = styled.div`
   color: white;
-  /* width: 40%; */
   width: 400px;
   height: 400px;
-  /* border: 3px dashed; */
-  /* padding: 20px; */
   margin-bottom: 80px;
 `;
 
@@ -38,10 +34,38 @@ export const Headline = styled.h1`
   margin-bottom: 30px;
   font-size: 70px;
   font-weight: 900;
+
+  /* animation */
+  animation: headline 1s ease;
+  animation-delay: 0.3s;
+  @keyframes headline {
+    from {
+      transform: translateY(-50px);
+      opacity: 0;
+    }
+    to {
+      transform: translateY(0);
+      opacity: 1;
+    }
+  }
 `;
 
 export const Phrase = styled.p`
   margin-bottom: 20px;
+
+  /* animation */
+  animation: phrase 1s ease;
+  animation-delay: 0.3s;
+  @keyframes phrase {
+    from {
+      transform: translateX(50px);
+      opacity: 0;
+    }
+    to {
+      transform: translateX(0);
+      opacity: 1;
+    }
+  }
 `;
 
 export const BuyButton = styled.button`
@@ -57,6 +81,20 @@ export const BuyButton = styled.button`
 
   &:hover {
     background-color: coral;
+  }
+
+  /* animation */
+  animation: buybutton 1s ease;
+  animation-delay: 0.3s;
+  @keyframes buybutton {
+    from {
+      transform: translateY(50px);
+      opacity: 0;
+    }
+    to {
+      transform: translateY(0);
+      opacity: 1;
+    }
   }
 `;
 

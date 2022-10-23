@@ -1,14 +1,11 @@
 import styled, { createGlobalStyle } from "styled-components";
 
 export const Container = styled.div`
+  /* width: 100%; */
   display: flex;
   flex-direction: column;
   align-items: center;
-  /* border: 3px dashed purple; */
-
-  /* @media screen and (max-width: 1000px) {
-    width: 90%;
-  } */
+  /* border: 3px dashed red; */
 `;
 
 export const GlobalStyles = createGlobalStyle`
@@ -17,7 +14,7 @@ export const GlobalStyles = createGlobalStyle`
     padding: 0;
     box-sizing: border-box;
     scroll-behavior: smooth;
-    scroll-padding-top: 100px;
+    /* scroll-padding-top: 100px; */
   }
 
   // Tag -----------------------------------------
@@ -28,8 +25,33 @@ export const GlobalStyles = createGlobalStyle`
   }
 
   :root{
+    // --identifier-attribute (Using...)
     --main--color: #00704a;
+    --main-color: #00704a;
     --second--color: #1e3932;
+    --base-color: #000;
+    --header-height: 70px;
+    --footer-height: 300px;
+    /* --height-footer: 300px; */
+
+
+    /////////////////////////////////////////////////
+    // --attribue-identifier
+
+    // Colors
+    --color-black: #000;
+    --color-white: #fff;
+    --color-primary: #00704a;
+
+    // Fonts
+    --font-size-small: 12px;
+    --font-size-medium: 16px;
+    --font-size-large: 24px;
+
+    // Height
+    --height-header: 70px;
+    --height-footer: 500px;
+
   }
 
   *::selection{
@@ -46,12 +68,16 @@ export const GlobalStyles = createGlobalStyle`
     /* border: 3px solid red; */
   }
 
+  ul {
+    list-style: none;
+  }
+
 
   // Class -----------------------------------------
 
   .container {
     width: 100%;
-    height: 100vh;
+    height: calc(100vh - var(--height-header));
     display: flex;
     flex-direction: column;
     justify-content: center;
