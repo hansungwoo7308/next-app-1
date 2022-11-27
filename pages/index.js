@@ -96,20 +96,21 @@ export default function Home({ data }) {
       </Head>
 
       <S.Layout2>
-        {/* <h1>test</h1> */}
         <input
           type="button"
           id="authBtn"
           value="checking..."
           onClick={(e) => {
             if (e.target.value === "login") {
-              FB.login((response) =>
-                console.log("login-response : ", response)
-              );
+              FB.login((response) => {
+                console.log("login-response : ", response);
+                FB.getLoginStatus(callback);
+              });
             } else {
-              FB.logout((response) =>
-                console.log("logout-response : ", response)
-              );
+              FB.logout((response) => {
+                console.log("logout-response : ", response);
+                FB.getLoginStatus(callback);
+              });
             }
           }}
         />
