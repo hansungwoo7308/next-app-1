@@ -1,9 +1,9 @@
 import { useEffect } from "react";
 import { useState, useRef } from "react";
-import * as S from "../../styles/components/Slider.styled";
-// import from ''
-import { IoMdArrowDropleft, IoMdArrowDropright } from "react-icons/io";
+
 import Image from "next/image";
+import * as S from "../../styles/components/Slider.styled";
+import { IoMdArrowDropleft, IoMdArrowDropright } from "react-icons/io";
 
 const Slider = ({ data }) => {
   // Data
@@ -52,12 +52,12 @@ const Slider = ({ data }) => {
     slider.current.style.transform = `translate(-20%)`;
   };
 
-  // useEffect(() => {
-  //   setTimeout(() => {
-  //     next();
-  //   }, 1000);
-  //   setTimeout(() => {}, 1000);
-  // });
+  useEffect(() => {
+    // const tick = setTimeout(() => {
+    //   next();
+    // }, 3000);
+    // return () => clearTimeout(tick);
+  });
 
   return (
     <S.Container className="container">
@@ -100,16 +100,6 @@ const Slider = ({ data }) => {
               layout="fill"
             />
           </section>
-          {/* <Image src={() => "https://source.unsplash.com/random/?coffee"} />
-          <Image src={() => "https://source.unsplash.com/random/?river"} />
-          <Image src={() => "https://source.unsplash.com/random/?cloud"} />
-          <Image src={() => "https://source.unsplash.com/random/?train"} /> */}
-
-          {/* <img src="https://source.unsplash.com/random/?rain" /> */}
-          {/* <img src="https://source.unsplash.com/random/?coffee" /> */}
-          {/* <img src="https://source.unsplash.com/random/?river" /> */}
-          {/* <img src="https://source.unsplash.com/random/?cloud" /> */}
-          {/* <img src="https://source.unsplash.com/random/?train" /> */}
           {/* <section>
             <img src={data[0].urls.regular} alt="" />
           </section>

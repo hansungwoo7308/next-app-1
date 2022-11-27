@@ -2,11 +2,20 @@ import * as S from "../styles/_app.styled";
 import Header from "../src/components/layout/Header";
 import { wrapper } from "../core/redux/store";
 import Footer from "../src/components/layout/Footer";
+import Script from "next/script";
+import { useEffect } from "react";
 
 // Page Layout Setting
 const MyApp = ({ Component, pageProps }) => {
   return (
     <S.Container>
+      <Script
+        // async
+        // defer
+        crossOrigin="anonymous"
+        src="https://connect.facebook.net/en_US/sdk.js"
+      />
+
       <S.GlobalStyles />
       <Header />
       <Component {...pageProps} />

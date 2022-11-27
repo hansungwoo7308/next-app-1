@@ -50,7 +50,6 @@ export const Controls = styled.div`
   }
   .arrow:hover {
     color: white;
-    /* opacity: 0.5; */
     background-color: rgba(3, 3, 3, 0.3);
   }
   .prev {

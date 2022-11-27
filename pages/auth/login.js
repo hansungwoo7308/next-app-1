@@ -4,15 +4,93 @@ import { useRouter } from "next/router";
 import { useState } from "react";
 import * as S from "../../styles/pages/login.styled";
 import jwt from "jsonwebtoken";
+import { useEffect } from "react";
 
-const Login = () => {
+export const getServerSideProps = (context) => {
+  // console.log("context.params : ", context.params);
+  // console.log("context.req.headers.cookie : ", context.req.headers.cookie);
+  console.log("context.query : ", context.query);
+  console.log("context.params : ", context.params);
+  // console.log("context.req : ", context.req);
+  // const test = context.query[0];
+  // console.log("test : ", test);
+  return {
+    props: {},
+  };
+};
+
+const Login = ({}) => {
   const router = useRouter();
+  const [user, setUser] = useState({ email: "", password: "" });
+  const [message, setMessage] = useState("Wellcome");
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
   // const [email, setEmail] = useState("");
   // const [password, setPassword] = useState("");
-  const [user, setUser] = useState({ email: "", password: "" });
+
+  // 로그인 상태를 확인해오기...
+  useEffect(() => {
+    console.log("useEffect...");
+    console.log("sessionStorage : ", sessionStorage);
+
+    // (() => {
+    //   console.log("Immediately Invoked Function...");
+    //   async () => {
+    //     console.log("async...");
+    //     try {
+    //       const response = await fetch("/api/isLogin").then((response) =>
+    //         response.json()
+    //       );
+
+    //       console.log("response : ", response);
+
+    //       setMessage("You are logged in.");
+    //       setIsLoggedIn(true);
+    //       console.log("try...");
+    //     } catch {
+    //       setMessage("You are not logged in.");
+    //       setIsLoggedIn(false);
+    //       console.log("catch...");
+    //     }
+    //   };
+    // })();
+  }, []);
+
+  // default logic...
+  const login = async (e) => {
+    e.preventDefault();
+    const response = await fetch("/api/login", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ user }),
+    }).then((response) => response.json());
+    // What is isLoggedIn in response object?
+
+    console.log("response.isLoggedIn : ", response.isLoggedIn);
+    if (response.isLoggedIn === true) {
+      setMessage("You are logged in.");
+    } else {
+      setMessage("A error occured.");
+    }
+  };
+
+  const logout = async (e) => {
+    e.preventDefault();
+    const response = await fetch("/api/logout", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ username: "1234" }),
+    }).then((response) => response.json());
+    setMessage("You are logged out.");
+  };
 
   const handleLogin2 = async (e) => {
     e.preventDefault();
+
+    // Request and Response
     const response = await fetch("/api/login", {
       method: "POST",
       headers: {
@@ -23,14 +101,15 @@ const Login = () => {
 
     console.log("response : ", response);
     const token = response.token;
-    console.log("token : ", token);
-
+    // console.log("token : ", token);
     if (token) {
       const json = jwt.decode(token);
       console.log("json : ", json);
     } else {
       console.log("Something went wrong.");
     }
+
+    // Redirect
   };
 
   const handleLogin = (e) => {
@@ -73,23 +152,16 @@ const Login = () => {
         <title>Log In</title>
       </Head>
       <S.Layout>
-        <pre
-          style={{
-            minWidth: "300px",
-            minHeight: "200px",
-            border: "3px dashed",
-            marginBottom: "20px",
-            background: "#fff",
-            padding: "20px",
-            borderRadius: "10px",
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-          }}
-        >
-          {JSON.stringify(user, null, 4)}
-        </pre>
-        <S.Form onSubmit={handleLogin2}>
+        <S.Notice>
+          <div>user : {JSON.stringify(user, null, 4)}</div>
+          <div>
+            <div>message : {message}</div>
+            {/* <div>
+              <h1>Message</h1>
+            </div> */}
+          </div>
+        </S.Notice>
+        <S.Form onSubmit={login}>
           <S.Input
             className="input"
             type="text"
@@ -97,12 +169,9 @@ const Login = () => {
             placeholder="Email"
             value={user.email}
             onChange={(e) => setUser({ ...user, email: e.target.value })}
-            // pattern=""
             // isFocusedOut={isFocusedOut ? true : false}
             // onBlur={handleFocus}
             // focused={focused.toString()}
-            // required
-            // 패턴(유효성검사)이 필요
           />
           <S.Input
             className="input"

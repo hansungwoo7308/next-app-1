@@ -7,7 +7,7 @@ export const Container = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  background-color: black;
+  /* background-color: black; */
 `;
 
 // 레이아웃은 페이지단에서만 정의하자

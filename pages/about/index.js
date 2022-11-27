@@ -38,7 +38,7 @@ const About = () => {
     <S.Container>
       <S.Layout>
         <S.Image>
-          <Image src={"/images/Profile.jpg"} width={300} height={300} />
+          <Image src="/images/Profile.jpg" width={300} height={300} />
         </S.Image>
         <S.Info>
           <div>

@@ -22,6 +22,34 @@ export const Layout = styled.div`
   border: 3px dashed;
 `;
 
+export const Notice = styled.pre`
+  min-width: 800px;
+  min-height: 300px;
+  margin-bottom: 20px;
+  background: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: stretch;
+  /* align-items: center; */
+  /* gap: 30px; */
+  border: 3px dashed;
+  div {
+    /* border: 1px dashed; */
+    /* flex-grow: 1; */
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    /* div {
+      flex-grow: initial;
+    } */
+  }
+`;
+
 export const Form = styled.form`
   display: flex;
   flex-direction: column;
