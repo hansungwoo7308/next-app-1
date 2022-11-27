@@ -55,9 +55,14 @@ export default function Home({ data }) {
     if (response.status === "connected") {
       console.log("connected");
       document.querySelector("#authBtn").value = "logout";
+      FB.api("/me", function (response) {
+        // console.log("api-response : ", response);
+        document.querySelector("#name").innerHTML = response.name;
+      });
     } else {
       console.log("not connected");
       document.querySelector("#authBtn").value = "login";
+      document.querySelector("#name").innerHTML = "";
     }
   };
 
@@ -104,16 +109,17 @@ export default function Home({ data }) {
             if (e.target.value === "login") {
               FB.login((response) => {
                 console.log("login-response : ", response);
-                FB.getLoginStatus(callback);
+                callback(response);
               });
             } else {
               FB.logout((response) => {
                 console.log("logout-response : ", response);
-                FB.getLoginStatus(callback);
+                callback(response);
               });
             }
           }}
         />
+        <span id="name"></span>
         {/* <div
           className="fb-like"
           data-share="true"
