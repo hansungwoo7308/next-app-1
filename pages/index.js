@@ -108,16 +108,16 @@ export default function Home({ data }) {
             // branch
             if (e.target.value === "login") {
               FB.login((response) => {
+                // after login, set the input value.
+                setLoginStatus(response);
                 console.log("login-response : ", response);
-                setLoginStatus(response);
-              });
-            } else if (e.target.value === "logout") {
-              FB.logout((response) => {
-                console.log("logout-response : ", response);
-                setLoginStatus(response);
               });
             } else {
-              alert("Checking... So please wait.");
+              FB.logout((response) => {
+                // after logout, set the input value.
+                setLoginStatus(response);
+                console.log("logout-response : ", response);
+              });
             }
           }}
         />
