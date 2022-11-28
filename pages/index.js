@@ -49,9 +49,7 @@ export default function Home({ data }) {
   // console.log("test : ", test);
 
   // ------------
-  const callback = (response) => {
-    console.log("init-response : ", response);
-
+  const checkLoginStatus = (response) => {
     if (response.status === "connected") {
       console.log("connected");
       document.querySelector("#authBtn").value = "logout";
@@ -75,6 +73,7 @@ export default function Home({ data }) {
       //   version: "v15.0",
       // });
 
+      console.log("initialize the facebook login API.");
       FB.init({
         appId: "1336989357119247",
         cookie: true, // Enable cookies to allow the server to access the session.
@@ -83,7 +82,7 @@ export default function Home({ data }) {
       });
 
       FB.getLoginStatus(
-        callback
+        checkLoginStatus
         // function (response) {
         // Called after the JS SDK has been initialized.
         // statusChangeCallback(response);        // Returns the login status.
@@ -91,7 +90,7 @@ export default function Home({ data }) {
         // }
       );
     };
-  });
+  }, []);
 
   return (
     <S.Container>
@@ -109,12 +108,12 @@ export default function Home({ data }) {
             if (e.target.value === "login") {
               FB.login((response) => {
                 console.log("login-response : ", response);
-                callback(response);
+                checkLoginStatus(response);
               });
             } else {
               FB.logout((response) => {
                 console.log("logout-response : ", response);
-                callback(response);
+                checkLoginStatus(response);
               });
             }
           }}
