@@ -23,7 +23,6 @@ import { useEffect } from "react";
 // };
 
 export default function Home({ data }) {
-  // console.log("data : ", data);
   // Server Side Rendering
   // const [list, setList] = useState([]);
   // const [isLoading, setIsLoading] = useState(true);
@@ -49,18 +48,19 @@ export default function Home({ data }) {
   // console.log("test : ", test);
 
   // ------------
-  const checkLoginStatus = (response) => {
+  const setLoginStatus = (response) => {
     if (response.status === "connected") {
-      console.log("connected");
       document.querySelector("#authBtn").value = "logout";
       FB.api("/me", function (response) {
+        document.querySelector("#name").innerHTML =
+          " Welcome, " + response.name;
         // console.log("api-response : ", response);
-        document.querySelector("#name").innerHTML = response.name;
       });
+      // console.log("connected");
     } else {
-      console.log("not connected");
       document.querySelector("#authBtn").value = "login";
       document.querySelector("#name").innerHTML = "";
+      // console.log("not connected");
     }
   };
 
@@ -82,7 +82,7 @@ export default function Home({ data }) {
       });
 
       FB.getLoginStatus(
-        checkLoginStatus
+        setLoginStatus
         // function (response) {
         // Called after the JS SDK has been initialized.
         // statusChangeCallback(response);        // Returns the login status.
@@ -105,16 +105,19 @@ export default function Home({ data }) {
           id="authBtn"
           value="checking..."
           onClick={(e) => {
+            // branch
             if (e.target.value === "login") {
               FB.login((response) => {
                 console.log("login-response : ", response);
-                checkLoginStatus(response);
+                setLoginStatus(response);
               });
-            } else {
+            } else if (e.target.value === "logout") {
               FB.logout((response) => {
                 console.log("logout-response : ", response);
-                checkLoginStatus(response);
+                setLoginStatus(response);
               });
+            } else {
+              alert("Checking... So please wait.");
             }
           }}
         />
