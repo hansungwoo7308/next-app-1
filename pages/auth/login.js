@@ -1,16 +1,16 @@
 import Axios from "axios";
 import Head from "next/head";
 import { useRouter } from "next/router";
-import { useState } from "react";
+import { useRef, useState, useEffect } from "react";
 import * as S from "../../styles/pages/login.styled";
 import jwt from "jsonwebtoken";
-import { useEffect } from "react";
 
 export const getServerSideProps = (context) => {
+  // console.log("context.query : ", context.query);
+  // console.log("context.params : ", context.params);
+  //
   // console.log("context.params : ", context.params);
   // console.log("context.req.headers.cookie : ", context.req.headers.cookie);
-  console.log("context.query : ", context.query);
-  console.log("context.params : ", context.params);
   // console.log("context.req : ", context.req);
   // const test = context.query[0];
   // console.log("test : ", test);
@@ -27,11 +27,47 @@ const Login = ({}) => {
   // const [email, setEmail] = useState("");
   // const [password, setPassword] = useState("");
 
+  // auth
+  const authBtn = useRef();
+  const setLoginStatus = (response) => {
+    if (response.status === "connected") {
+      console.log("loged in...");
+      // authBtn.current.innerHTML = "logout";
+      // document.querySelector(".authBtn").value = "logout";
+      // FB.api("/me", function (response) {
+      //   document.querySelector("#name").innerHTML =
+      //     "\tWelcome, " + response.name;
+      // });
+    } else {
+      console.log("loged out...");
+      // authBtn.current.innerHTML = "login";
+      // document.querySelector("#authBtn").value = "login";
+      // document.querySelector("#name").innerHTML = "";
+    }
+  };
+
   // 로그인 상태를 확인해오기...
   useEffect(() => {
-    console.log("useEffect...");
-    console.log("sessionStorage : ", sessionStorage);
+    window.fbAsyncInit = function () {
+      console.log("initialize the facebook login API.");
+      FB.init({
+        appId: "1336989357119247",
+        cookie: true, // Enable cookies to allow the server to access the session.
+        xfbml: true, // Parse social plugins on this webpage.
+        version: "v15.0", // Use this Graph API version for this call.
+      });
+      // FB.getLoginStatus(
+      //   setLoginStatus
+      //   // function (response) {
+      //   // Called after the JS SDK has been initialized.
+      //   // statusChangeCallback(response);        // Returns the login status.
+      //   // console.log("response : ", response);
+      //   // }
+      // );
+    };
 
+    // console.log("useEffect...");
+    // console.log("sessionStorage : ", sessionStorage);
     // (() => {
     //   console.log("Immediately Invoked Function...");
     //   async () => {
@@ -40,9 +76,7 @@ const Login = ({}) => {
     //       const response = await fetch("/api/isLogin").then((response) =>
     //         response.json()
     //       );
-
     //       console.log("response : ", response);
-
     //       setMessage("You are logged in.");
     //       setIsLoggedIn(true);
     //       console.log("try...");
@@ -181,7 +215,30 @@ const Login = ({}) => {
             value={user.password}
             onChange={(e) => setUser({ ...user, password: e.target.value })}
           />
-          <S.Button className="button" type="submit" color="blue">
+          <S.Button
+            className="button"
+            ref={authBtn}
+            type="submit"
+            color="blue"
+            onClick={(e) => {
+              console.log("authBtn...");
+              // console.log("e.target.textContent : ", e.target.textContent);
+              // auth
+              if (e.target.textContent === "login") {
+                FB.login((response) => {
+                  // after login, set the input value.
+                  setLoginStatus(response);
+                  console.log("login-response : ", response);
+                });
+              } else {
+                FB.logout((response) => {
+                  // after logout, set the input value.
+                  setLoginStatus(response);
+                  console.log("logout-response : ", response);
+                });
+              }
+            }}
+          >
             Login
           </S.Button>
           <S.Button className="button" onClick={handleResister}>

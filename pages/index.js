@@ -48,49 +48,49 @@ export default function Home({ data }) {
   // console.log("test : ", test);
 
   // ------------
-  const setLoginStatus = (response) => {
-    if (response.status === "connected") {
-      document.querySelector("#authBtn").value = "logout";
-      FB.api("/me", function (response) {
-        document.querySelector("#name").innerHTML =
-          " Welcome, " + response.name;
-        // console.log("api-response : ", response);
-      });
-      // console.log("connected");
-    } else {
-      document.querySelector("#authBtn").value = "login";
-      document.querySelector("#name").innerHTML = "";
-      // console.log("not connected");
-    }
-  };
+  // const setLoginStatus = (response) => {
+  //   if (response.status === "connected") {
+  //     document.querySelector("#authBtn").value = "logout";
+  //     FB.api("/me", function (response) {
+  //       document.querySelector("#name").innerHTML =
+  //         "\tWelcome, " + response.name;
+  //       // console.log("api-response : ", response);
+  //     });
+  //     // console.log("connected");
+  //   } else {
+  //     document.querySelector("#authBtn").value = "login";
+  //     document.querySelector("#name").innerHTML = "";
+  //     // console.log("not connected");
+  //   }
+  // };
 
-  useEffect(() => {
-    window.fbAsyncInit = function () {
-      // FB.init({
-      //   appId: "1336989357119247",
-      //   autoLogAppEvents: true,
-      //   xfbml: true,
-      //   version: "v15.0",
-      // });
+  // useEffect(() => {
+  //   window.fbAsyncInit = function () {
+  //     // FB.init({
+  //     //   appId: "1336989357119247",
+  //     //   autoLogAppEvents: true,
+  //     //   xfbml: true,
+  //     //   version: "v15.0",
+  //     // });
 
-      console.log("initialize the facebook login API.");
-      FB.init({
-        appId: "1336989357119247",
-        cookie: true, // Enable cookies to allow the server to access the session.
-        xfbml: true, // Parse social plugins on this webpage.
-        version: "v15.0", // Use this Graph API version for this call.
-      });
+  //     console.log("initialize the facebook login API.");
+  //     FB.init({
+  //       appId: "1336989357119247",
+  //       cookie: true, // Enable cookies to allow the server to access the session.
+  //       xfbml: true, // Parse social plugins on this webpage.
+  //       version: "v15.0", // Use this Graph API version for this call.
+  //     });
 
-      FB.getLoginStatus(
-        setLoginStatus
-        // function (response) {
-        // Called after the JS SDK has been initialized.
-        // statusChangeCallback(response);        // Returns the login status.
-        // console.log("response : ", response);
-        // }
-      );
-    };
-  }, []);
+  //     FB.getLoginStatus(
+  //       setLoginStatus
+  //       // function (response) {
+  //       // Called after the JS SDK has been initialized.
+  //       // statusChangeCallback(response);        // Returns the login status.
+  //       // console.log("response : ", response);
+  //       // }
+  //     );
+  //   };
+  // }, []);
 
   return (
     <S.Container>
@@ -100,7 +100,7 @@ export default function Home({ data }) {
       </Head>
 
       <S.Layout2>
-        <input
+        {/* <input
           type="button"
           id="authBtn"
           value="checking..."
@@ -121,7 +121,7 @@ export default function Home({ data }) {
             }
           }}
         />
-        <span id="name"></span>
+        <span id="name"></span> */}
         {/* <div
           className="fb-like"
           data-share="true"

@@ -46,6 +46,10 @@ export const List = styled.ul`
   /* border: 3px solid red; */
   /* align-items: center; */
 
+  .authBtn {
+    border: 1px solid coral;
+  }
+
   @media screen and (max-width: 1000px) {
     width: 100%;
     height: calc(100vh - var(--header-height));

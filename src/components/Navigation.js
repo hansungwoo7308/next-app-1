@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { FaBars, FaTimes, FaWindowClose } from "react-icons/fa";
 import { AiOutlineGlobal } from "react-icons/ai";
 // import { useSelector } from "react-redux";
@@ -8,7 +8,7 @@ import * as S from "../../styles/components/Navigation.styled";
 const Navigation = () => {
   const focus = useRef("home");
   const clickItem = (item) => {
-    console.log("item : ", item);
+    // console.log("item : ", item);
     focus.current = item;
   };
 
@@ -17,6 +17,46 @@ const Navigation = () => {
   const handleClick = (e) => {
     setIsClicked(!isClicked);
   };
+
+  // auth
+  const authBtn = useRef();
+  const [authBtnLabel, setAuthBtnLabel] = useState("Sign In");
+  // const setLoginStatus = (response) => {
+  //   if (response.status === "connected") {
+  //     console.log("loged in...");
+  //     authBtn.current.innerHTML = "logout";
+  //     // document.querySelector(".authBtn").value = "logout";
+  //     // FB.api("/me", function (response) {
+  //     //   document.querySelector("#name").innerHTML =
+  //     //     "\tWelcome, " + response.name;
+  //     // });
+  //   } else {
+  //     console.log("loged out...");
+  //     authBtn.current.innerHTML = "login";
+  //     // document.querySelector("#authBtn").value = "login";
+  //     // document.querySelector("#name").innerHTML = "";
+  //   }
+  // };
+
+  useEffect(() => {
+    // window.fbAsyncInit = function () {
+    //   console.log("initialize the facebook login API.");
+    //   FB.init({
+    //     appId: "1336989357119247",
+    //     cookie: true, // Enable cookies to allow the server to access the session.
+    //     xfbml: true, // Parse social plugins on this webpage.
+    //     version: "v15.0", // Use this Graph API version for this call.
+    //   });
+    //   FB.getLoginStatus(
+    //     setLoginStatus
+    //     // function (response) {
+    //     // Called after the JS SDK has been initialized.
+    //     // statusChangeCallback(response);        // Returns the login status.
+    //     // console.log("response : ", response);
+    //     // }
+    //   );
+    // };
+  }, []);
 
   // console.log("focus.current : ", focus.current);
   // console.log("focus.current === 'home' : ", focus.current === "home");
@@ -138,7 +178,26 @@ const Navigation = () => {
           </Link>
         </S.Item>
         <S.Item
-          onClick={() => clickItem("login")}
+          className="authBtn"
+          ref={authBtn}
+          onClick={(e) => {
+            clickItem("login");
+
+            // auth
+            // if (authBtnLabel === "login") {
+            //   FB.login((response) => {
+            //     // after login, set the input value.
+            //     setLoginStatus(response);
+            //     console.log("login-response : ", response);
+            //   });
+            // } else {
+            //   FB.logout((response) => {
+            //     // after logout, set the input value.
+            //     setLoginStatus(response);
+            //     console.log("logout-response : ", response);
+            //   });
+            // }
+          }}
           clickItem={focus.current === "login" ? true : false}
         >
           <Link href={"/auth/login"}>
