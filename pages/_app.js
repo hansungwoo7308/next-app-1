@@ -10,8 +10,8 @@ const MyApp = ({ Component, pageProps }) => {
   return (
     <S.Container>
       <Script
-        // async
-        // defer
+        async
+        defer
         crossOrigin="anonymous"
         src="https://connect.facebook.net/en_US/sdk.js"
       />
