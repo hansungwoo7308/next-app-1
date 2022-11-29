@@ -56,14 +56,14 @@ const Login = ({}) => {
         xfbml: true, // Parse social plugins on this webpage.
         version: "v15.0", // Use this Graph API version for this call.
       });
-      // FB.getLoginStatus(
-      //   setLoginStatus
-      //   // function (response) {
-      //   // Called after the JS SDK has been initialized.
-      //   // statusChangeCallback(response);        // Returns the login status.
-      //   // console.log("response : ", response);
-      //   // }
-      // );
+      FB.getLoginStatus(
+        setLoginStatus
+        // function (response) {
+        // Called after the JS SDK has been initialized.
+        // statusChangeCallback(response);        // Returns the login status.
+        // console.log("response : ", response);
+        // }
+      );
     };
 
     // console.log("useEffect...");
@@ -221,14 +221,14 @@ const Login = ({}) => {
             type="submit"
             color="blue"
             onClick={(e) => {
-              console.log("authBtn...");
-              console.log(
-                "authBtn.current.innerText : ",
-                authBtn.current.innerText
-              );
+              // console.log("authBtn...");
+              // console.log(
+              //   "authBtn.current.innerText : ",
+              //   authBtn.current.innerText
+              // );
               // console.log("e.target.textContent : ", e.target.textContent);
               // auth
-              if (e.target.textContent === "login") {
+              if (authBtn.current.innerHTML === "login") {
                 FB.login((response) => {
                   // after login, set the input value.
                   setLoginStatus(response);
