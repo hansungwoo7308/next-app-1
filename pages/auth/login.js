@@ -32,7 +32,7 @@ const Login = ({}) => {
   const setLoginStatus = (response) => {
     if (response.status === "connected") {
       console.log("loged in...");
-      // authBtn.current.innerHTML = "logout";
+      authBtn.current.innerHTML = "logout";
       // document.querySelector(".authBtn").value = "logout";
       // FB.api("/me", function (response) {
       //   document.querySelector("#name").innerHTML =
@@ -40,7 +40,7 @@ const Login = ({}) => {
       // });
     } else {
       console.log("loged out...");
-      // authBtn.current.innerHTML = "login";
+      authBtn.current.innerHTML = "login";
       // document.querySelector("#authBtn").value = "login";
       // document.querySelector("#name").innerHTML = "";
     }
@@ -222,6 +222,10 @@ const Login = ({}) => {
             color="blue"
             onClick={(e) => {
               console.log("authBtn...");
+              console.log(
+                "authBtn.current.innerText : ",
+                authBtn.current.innerText
+              );
               // console.log("e.target.textContent : ", e.target.textContent);
               // auth
               if (e.target.textContent === "login") {
