@@ -85,7 +85,7 @@ export const Item = styled.li`
   }
 
   ${(props) => {
-    if (props.clickItem) {
+    if (props.clickedItem) {
       return css`
         color: coral;
         &:hover > a {

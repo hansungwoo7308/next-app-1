@@ -4,17 +4,14 @@ import { FaBars, FaTimes, FaWindowClose } from "react-icons/fa";
 import { AiOutlineGlobal } from "react-icons/ai";
 // import { useSelector } from "react-redux";
 import * as S from "../../styles/components/Navigation.styled";
+import { Router, useRouter } from "next/router";
 
 const Navigation = () => {
-  const focus = useRef("home");
-  const clickItem = (item) => {
-    // console.log("item : ", item);
-    focus.current = item;
-  };
+  const router = useRouter();
 
   // 햄버거 메뉴의 활성화/비활성화를 위한...
   const [isClicked, setIsClicked] = useState(false);
-  const handleClick = (e) => {
+  const handleClick = () => {
     setIsClicked(!isClicked);
   };
 
@@ -38,36 +35,54 @@ const Navigation = () => {
   //   }
   // };
 
-  useEffect(() => {
-    // window.fbAsyncInit = function () {
-    //   console.log("initialize the facebook login API.");
-    //   FB.init({
-    //     appId: "1336989357119247",
-    //     cookie: true, // Enable cookies to allow the server to access the session.
-    //     xfbml: true, // Parse social plugins on this webpage.
-    //     version: "v15.0", // Use this Graph API version for this call.
-    //   });
-    //   FB.getLoginStatus(
-    //     setLoginStatus
-    //     // function (response) {
-    //     // Called after the JS SDK has been initialized.
-    //     // statusChangeCallback(response);        // Returns the login status.
-    //     // console.log("response : ", response);
-    //     // }
-    //   );
-    // };
-  }, []);
+  // useEffect(() => {
+  //   // window.fbAsyncInit = function () {
+  //   //   console.log("initialize the facebook login API.");
+  //   //   FB.init({
+  //   //     appId: "1336989357119247",
+  //   //     cookie: true, // Enable cookies to allow the server to access the session.
+  //   //     xfbml: true, // Parse social plugins on this webpage.
+  //   //     version: "v15.0", // Use this Graph API version for this call.
+  //   //   });
+  //   //   FB.getLoginStatus(
+  //   //     setLoginStatus
+  //   //     // function (response) {
+  //   //     // Called after the JS SDK has been initialized.
+  //   //     // statusChangeCallback(response);        // Returns the login status.
+  //   //     // console.log("response : ", response);
+  //   //     // }
+  //   //   );
+  //   // };
+  // }, []);
 
-  // console.log("focus.current : ", focus.current);
-  // console.log("focus.current === 'home' : ", focus.current === "home");
+  // Check the router pathname and Change the clickedItem state.
+  const [clickedItem, setClickedItem] = useState("home");
+  const changeClickedItem = () => {
+    // console.log("router.pathname : ", router.pathname);
+    if (router.pathname === "/") {
+      setClickedItem("home");
+    } else if (
+      router.pathname === "/products"
+      // ||
+      // router.pathname === "/products*"
+    ) {
+      setClickedItem("products");
+    } else if (router.pathname === "/about") {
+      setClickedItem("about");
+    } else if (router.pathname === "/auth/register") {
+      setClickedItem("register");
+    } else if (router.pathname === "/auth/login") {
+      setClickedItem("login");
+    }
+  };
+
+  useEffect(() => {
+    changeClickedItem();
+  });
 
   return (
     <S.Container>
-      {/* Logo */}
-      <S.Logo
-        onClick={() => clickItem("home")}
-        clickItem={focus.current === "home" ? true : false}
-      >
+      <S.Logo clickedItem={clickedItem === "home"}>
         <Link href="/">
           <a>
             <AiOutlineGlobal size={30} />
@@ -75,12 +90,8 @@ const Navigation = () => {
         </Link>
       </S.Logo>
 
-      {/* Menu */}
       <S.List isClicked={isClicked} onClick={handleClick}>
-        <S.Item
-          onClick={() => clickItem("home")}
-          clickItem={focus.current === "home" ? true : false}
-        >
+        <S.Item clickedItem={clickedItem === "home"}>
           <Link href={"/"}>
             <a>Home</a>
           </Link>
@@ -119,16 +130,13 @@ const Navigation = () => {
             </S.SubItem>
           </S.SubList>
         </S.Item>
-        <S.Item
-          onClick={() => clickItem("product")}
-          clickItem={focus.current === "product" ? true : false}
-        >
+        <S.Item clickedItem={clickedItem === "products"}>
           <Link href={"/products"}>
             <a>Products</a>
           </Link>
           <S.SubList>
-            <S.SubItem>
-              <Link href={"#"}>
+            <S.SubItem clickedItem={clickedItem === "products"}>
+              <Link href={"/products/#"}>
                 <a>sub menu</a>
               </Link>
               <S.AsideList>
@@ -150,29 +158,23 @@ const Navigation = () => {
               </S.AsideList>
             </S.SubItem>
             <S.SubItem>
-              <Link href={"#"}>
+              <Link href={"/products/#"}>
                 <a>sub menu</a>
               </Link>
             </S.SubItem>
             <S.SubItem>
-              <Link href={"#"}>
+              <Link href={"/products/#"}>
                 <a>sub menu</a>
               </Link>
             </S.SubItem>
           </S.SubList>
         </S.Item>
-        <S.Item
-          onClick={() => clickItem("about")}
-          clickItem={focus.current === "about" ? true : false}
-        >
+        <S.Item clickedItem={clickedItem === "about"}>
           <Link href={"/about"}>
             <a>About</a>
           </Link>
         </S.Item>
-        <S.Item
-          onClick={() => clickItem("register")}
-          clickItem={focus.current === "register" ? true : false}
-        >
+        <S.Item clickedItem={clickedItem === "register"}>
           <Link href={"/auth/register"}>
             <a>Sign Up</a>
           </Link>
@@ -181,8 +183,6 @@ const Navigation = () => {
           className="authBtn"
           ref={authBtn}
           onClick={(e) => {
-            clickItem("login");
-
             // auth
             // if (authBtnLabel === "login") {
             //   FB.login((response) => {
@@ -198,7 +198,7 @@ const Navigation = () => {
             //   });
             // }
           }}
-          clickItem={focus.current === "login" ? true : false}
+          clickedItem={clickedItem === "login"}
         >
           <Link href={"/auth/login"}>
             <a>Sign In</a>
@@ -206,7 +206,6 @@ const Navigation = () => {
         </S.Item>
       </S.List>
 
-      {/* Hambergur */}
       <S.Hamburger isClicked={isClicked} onClick={handleClick}>
         {isClicked ? <FaTimes size={30} /> : <FaBars size={30} />}
       </S.Hamburger>

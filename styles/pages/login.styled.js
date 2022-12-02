@@ -70,5 +70,7 @@ export const Label = styled.label``;
 // 동서남북으로 양각과 음각으로 기본값이 셋팅되어 있음
 // 초기값으로 보더를 설정해주어야 좋음
 
-export const Input = styled.input``;
+export const Input = styled.input`
+  min-width: 250px;
+`;
 export const Button = styled.button``;

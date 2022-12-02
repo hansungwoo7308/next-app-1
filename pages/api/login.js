@@ -6,8 +6,11 @@ export default function handler(req, res) {
   // 확인되면, 토큰을 생성한다.
 
   // console.log("-------request.body : ", req.body);
-  const { email, password } = req.body.user;
-  const KEY = "abc";
+  // const { email, password } = req.body.user;
+  // const KEY = "abc";
+  const { headers, body } = req;
+  console.log("headers : ", headers);
+  console.log("body : ", body);
 
   if (!req) {
     res.status(404);
@@ -15,7 +18,14 @@ export default function handler(req, res) {
     return;
   }
   if (req.method === "POST") {
-    res.status(200).json({ token: jwt.sign({ email, password }, KEY) });
+    res
+      // .setHeader("Set-Cookie", "a_name=Mike;Max-Age=0;HttpOnly,Secure")
+      // .setHeader("Set-Cookie", "a_name=Mike;HttpOnly,Secure")
+      .setHeader("Set-Cookie", "key=value")
+      .status(200)
+      .end();
+    // .json({ message: "hello" });
+    // res.status(200).json({ token: jwt.sign({ email, password }, KEY) });
     // Max-Age : 쿠키 생존 나이 : 3600 second = 1 hour
     // res.setHeader(
     //   "Set-Cookie",

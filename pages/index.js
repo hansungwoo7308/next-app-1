@@ -22,7 +22,8 @@ import { useEffect } from "react";
 //   };
 // };
 
-export default function Home({ data }) {
+export default function Home(props) {
+  console.log("props : ", props);
   // Server Side Rendering
   // const [list, setList] = useState([]);
   // const [isLoading, setIsLoading] = useState(true);
@@ -166,3 +167,14 @@ export default function Home({ data }) {
 //   const data = res.data;
 //   return { props: { list: data, name: process.env.name } };
 // }
+
+// Server Side
+export async function getServerSideProps() {
+  return {
+    props: { data: "payload" },
+    // redirect: {
+    //   destination: "/about",
+    //   // permanent: false,
+    // },
+  };
+}

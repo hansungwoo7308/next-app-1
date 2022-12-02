@@ -6,14 +6,9 @@ import * as S from "../../styles/pages/login.styled";
 import jwt from "jsonwebtoken";
 
 export const getServerSideProps = (context) => {
-  // console.log("context.query : ", context.query);
-  // console.log("context.params : ", context.params);
-  //
-  // console.log("context.params : ", context.params);
+  // console.log("context.req.cookies : ", context.req.cookies);
   // console.log("context.req.headers.cookie : ", context.req.headers.cookie);
-  // console.log("context.req : ", context.req);
-  // const test = context.query[0];
-  // console.log("test : ", test);
+  // console.log("context.res.statusCode : ", context.res.statusCode);
   return {
     props: {},
   };
@@ -29,44 +24,39 @@ const Login = ({}) => {
 
   // auth
   const authBtn = useRef();
-  const setLoginStatus = (response) => {
+  // 페이스북 로그인 버튼 레이블 셋팅 메서드
+  const setLoginBtnLabel = (response) => {
     if (response.status === "connected") {
-      console.log("loged in...");
-      authBtn.current.innerHTML = "logout";
-      // document.querySelector(".authBtn").value = "logout";
-      // FB.api("/me", function (response) {
-      //   document.querySelector("#name").innerHTML =
-      //     "\tWelcome, " + response.name;
-      // });
+      authBtn.current.innerHTML = "Logout with facebook logoutAPI";
     } else {
-      console.log("loged out...");
-      authBtn.current.innerHTML = "login";
-      // document.querySelector("#authBtn").value = "login";
-      // document.querySelector("#name").innerHTML = "";
+      authBtn.current.innerHTML = "Login with facebook loginAPI";
     }
   };
 
-  // 로그인 상태를 확인해오기...
-  useEffect(() => {
-    window.fbAsyncInit = function () {
-      console.log("initialize the facebook login API.");
-      FB.init({
-        appId: "1336989357119247",
-        cookie: true, // Enable cookies to allow the server to access the session.
-        xfbml: true, // Parse social plugins on this webpage.
-        version: "v15.0", // Use this Graph API version for this call.
-      });
-      FB.getLoginStatus(
-        setLoginStatus
-        // function (response) {
-        // Called after the JS SDK has been initialized.
-        // statusChangeCallback(response);        // Returns the login status.
-        // console.log("response : ", response);
-        // }
-      );
-    };
+  // useEffect(() => {
+  //   // 페이스북 로그인 초기화
+  //   window.fbAsyncInit = function () {
+  //     console.log("initialize the facebook login API.");
+  //     FB.init({
+  //       appId: "1336989357119247",
+  //       cookie: true, // Enable cookies to allow the server to access the session.
+  //       xfbml: true, // Parse social plugins on this webpage.
+  //       version: "v15.0", // Use this Graph API version for this call.
+  //     });
+  //     // FB.getLoginStatus(
+  //     //   setLoginBtnLabel
+  //     //   // function (response) {
+  //     //   // Called after the JS SDK has been initialized.
+  //     //   // statusChangeCallback(response);        // Returns the login status.
+  //     //   // console.log("response : ", response);
+  //     //   // }
+  //     // );
+  //   };
+  // });
 
-    // console.log("useEffect...");
+  useEffect(() => {
+    // checkLoginStatus();
+    //
     // console.log("sessionStorage : ", sessionStorage);
     // (() => {
     //   console.log("Immediately Invoked Function...");
@@ -87,26 +77,38 @@ const Login = ({}) => {
     //     }
     //   };
     // })();
-  }, []);
+  });
 
-  // default logic...
+  const checkLoginStatus = async () => {
+    const test = await fetch("/api/auth/isLogin").then((res) => res.json());
+    if (test.status === "login") {
+      console.log("You are logged in.");
+      // return true;
+    } else {
+      // return false;
+    }
+  };
+
   const login = async (e) => {
     e.preventDefault();
-    const response = await fetch("/api/login", {
+    const data = await fetch("/api/login", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({ user }),
-    }).then((response) => response.json());
-    // What is isLoggedIn in response object?
+    })
+      .then((response) => response.json())
+      .catch((error) => console.log("error"));
 
-    console.log("response.isLoggedIn : ", response.isLoggedIn);
-    if (response.isLoggedIn === true) {
-      setMessage("You are logged in.");
-    } else {
-      setMessage("A error occured.");
-    }
+    // console.log("data : ", data);
+
+    // console.log("response.isLoggedIn : ", response.isLoggedIn);
+    // if (response.isLoggedIn === true) {
+    //   setMessage("You are logged in.");
+    // } else {
+    //   setMessage("A error occured.");
+    // }
   };
 
   const logout = async (e) => {
@@ -169,17 +171,6 @@ const Login = ({}) => {
     router.push("/auth/register");
   };
 
-  // // const [focused, setFocused] = useState(false);
-  // const [isFocusedOut, setIsFocusedOut] = useState(false);
-  // const handleFocus = () => {
-  //   setIsFocusedOut(true);
-  //   console.log(isFocusedOut);
-  //   // setFocused(true);
-  //   // console.log("handleFocus");
-  //   // console.log(focused.toString());
-  //   // console.log(focused);
-  // };
-
   return (
     <S.Container>
       <Head>
@@ -190,12 +181,10 @@ const Login = ({}) => {
           <div>user : {JSON.stringify(user, null, 4)}</div>
           <div>
             <div>message : {message}</div>
-            {/* <div>
-              <h1>Message</h1>
-            </div> */}
           </div>
         </S.Notice>
         <S.Form onSubmit={login}>
+          {/* Inputs */}
           <S.Input
             className="input"
             type="text"
@@ -215,39 +204,36 @@ const Login = ({}) => {
             value={user.password}
             onChange={(e) => setUser({ ...user, password: e.target.value })}
           />
-          <S.Button
+
+          {/* Buttons */}
+          <S.Button className="button" type="submit">
+            Login
+          </S.Button>
+          {/* <S.Button
             className="button"
             ref={authBtn}
-            type="submit"
             color="blue"
-            onClick={(e) => {
-              // console.log("authBtn...");
-              // console.log(
-              //   "authBtn.current.innerText : ",
-              //   authBtn.current.innerText
-              // );
-              // console.log("e.target.textContent : ", e.target.textContent);
-              // auth
-              if (authBtn.current.innerHTML === "login") {
+            onClick={() => {
+              if (
+                authBtn.current.innerHTML === "Login with facebook loginAPI"
+              ) {
                 FB.login((response) => {
-                  // after login, set the input value.
-                  setLoginStatus(response);
                   console.log("login-response : ", response);
+                  setLoginBtnLabel(response);
                 });
               } else {
                 FB.logout((response) => {
-                  // after logout, set the input value.
-                  setLoginStatus(response);
                   console.log("logout-response : ", response);
+                  setLoginBtnLabel(response);
                 });
               }
             }}
           >
-            Login
-          </S.Button>
-          <S.Button className="button" onClick={handleResister}>
+            Login with facebook loginAPI
+          </S.Button> */}
+          {/* <S.Button className="button" onClick={handleResister}>
             Resister
-          </S.Button>
+          </S.Button> */}
         </S.Form>
       </S.Layout>
     </S.Container>
