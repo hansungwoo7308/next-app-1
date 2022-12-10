@@ -74,30 +74,35 @@ const Slider = ({ data }) => {
             <Image
               src="https://source.unsplash.com/random/?rain"
               layout="fill"
+              alt="rain"
             />
           </section>
           <section>
             <Image
               src="https://source.unsplash.com/random/?coffee"
               layout="fill"
+              alt="coffee"
             />
           </section>
           <section>
             <Image
               src="https://source.unsplash.com/random/?river"
               layout="fill"
+              alt="river"
             />
           </section>
           <section>
             <Image
               src="https://source.unsplash.com/random/?cloud"
               layout="fill"
+              alt="cloud"
             />
           </section>
           <section>
             <Image
               src="https://source.unsplash.com/random/?train"
               layout="fill"
+              alt="train"
             />
           </section>
           {/* <section>

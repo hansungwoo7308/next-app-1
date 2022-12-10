@@ -6,6 +6,7 @@ import Carousel from "../src/components/Carousel";
 import Landing from "../src/components/Landing";
 import { useSelector } from "react-redux";
 import { useEffect } from "react";
+import { ImSpinner8, ImSpinner3 } from "react-icons/im";
 // import { useEffect, useState } from "react";
 
 // export const getStaticProps = async () => {
@@ -23,7 +24,9 @@ import { useEffect } from "react";
 // };
 
 export default function Home(props) {
-  console.log("props : ", props);
+  console.log("frontend Home");
+  // console.log("props : ", props);
+
   // Server Side Rendering
   // const [list, setList] = useState([]);
   // const [isLoading, setIsLoading] = useState(true);
@@ -101,6 +104,8 @@ export default function Home(props) {
       </Head>
 
       <S.Layout2>
+        <ImSpinner8 className="spinner" size={50} />
+        {/* <ImSpinner3 className="spinner" size={50} /> */}
         {/* <input
           type="button"
           id="authBtn"

@@ -1,4 +1,5 @@
 import Axios from "axios";
+import Image from "next/image";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import * as S from "../../styles/pages/admin.styled";
@@ -29,7 +30,7 @@ const Admin = () => {
 
   useEffect(() => {
     checkLogin();
-  });
+  }, []);
 
   return (
     <S.Container>
@@ -38,9 +39,13 @@ const Admin = () => {
           <S.Admin>
             <S.Profile>
               <S.Image>
-                <img
-                  src="https://cdn.pixabay.com/photo/2022/07/24/17/55/wind-energy-7342177_960_720.jpg"
-                  alt=""
+                <Image
+                  src={
+                    "https://cdn.pixabay.com/photo/2022/07/24/17/55/wind-energy-7342177_960_720.jpg"
+                  }
+                  alt="profile"
+                  layout="fill"
+                  objectFit="cover"
                 />
               </S.Image>
               <S.Info>

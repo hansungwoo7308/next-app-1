@@ -30,4 +30,17 @@ export const Layout2 = styled.div`
   align-items: center;
   justify-content: center;
   /* background-color: gray; */
+
+  .spinner {
+    animation: spin infinite 0.7s linear;
+  }
+
+  @keyframes spin {
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(360deg);
+    }
+  }
 `;

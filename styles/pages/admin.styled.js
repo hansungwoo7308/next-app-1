@@ -47,16 +47,13 @@ export const Profile = styled.div`
 export const Image = styled.div`
   width: 150px;
   height: 150px;
+  position: relative;
   /* display: flex;
   justify-content: center;
   align-items: center; */
-  padding: 20px;
   img {
-    border: 5px solid coral;
+    border: 5px solid coral !important;
     border-radius: 50%;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
     pointer-events: none;
   }
 `;

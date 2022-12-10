@@ -89,19 +89,29 @@ const Login = ({}) => {
     }
   };
 
+  // {
+  //   method: "POST",
+  //   headers: {
+  //     Authorization: "Basic test",
+  //   },
+  // }
+
   const login = async (e) => {
     e.preventDefault();
     const data = await fetch("/api/login", {
       method: "POST",
       headers: {
+        // Authorization: "Bearer test",
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ user }),
+      body: JSON.stringify({ ...user }),
     })
       .then((response) => response.json())
-      .catch((error) => console.log("error"));
+      // 서버에서 처리할 수 없는 에러를 처리한다.
+      .catch((error) => console.log("frontend-catch-error : ", error));
 
-    // console.log("data : ", data);
+    // console.log("frontend-data : ", data);
+    console.log("frontend response : ", data);
 
     // console.log("response.isLoggedIn : ", response.isLoggedIn);
     // if (response.isLoggedIn === true) {

@@ -7,9 +7,7 @@ import * as S from "../../styles/components/Navigation.styled";
 import { Router, useRouter } from "next/router";
 
 const Navigation = () => {
-  const router = useRouter();
-
-  // 햄버거 메뉴의 활성화/비활성화를 위한...
+  // For styles
   const [isClicked, setIsClicked] = useState(false);
   const handleClick = () => {
     setIsClicked(!isClicked);
@@ -56,16 +54,12 @@ const Navigation = () => {
   // }, []);
 
   // Check the router pathname and Change the clickedItem state.
+  const router = useRouter();
   const [clickedItem, setClickedItem] = useState("home");
   const changeClickedItem = () => {
-    // console.log("router.pathname : ", router.pathname);
     if (router.pathname === "/") {
       setClickedItem("home");
-    } else if (
-      router.pathname === "/products"
-      // ||
-      // router.pathname === "/products*"
-    ) {
+    } else if (router.pathname === "/products") {
       setClickedItem("products");
     } else if (router.pathname === "/about") {
       setClickedItem("about");
@@ -83,7 +77,7 @@ const Navigation = () => {
   return (
     <S.Container>
       <S.Logo clickedItem={clickedItem === "home"}>
-        <Link href="/">
+        <Link href={"/"}>
           <a>
             <AiOutlineGlobal size={30} />
           </a>

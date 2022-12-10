@@ -10,6 +10,10 @@ const About = () => {
   const [index, setIndex] = useState(0);
   const [initialFocus, setInitialFocus] = useState();
 
+  // const test = new URL("http://localhost:3000/");
+  // const test = new URL("/about", "http://localhost:3000/");
+  // console.log("frontend-url : ", test);
+
   useEffect(() => {
     // Read
     const list = document.querySelectorAll(".tabMenu");
@@ -38,7 +42,12 @@ const About = () => {
     <S.Container>
       <S.Layout>
         <S.Image>
-          <Image src="/images/Profile.jpg" width={300} height={300} />
+          <Image
+            src="/images/Profile.JPG"
+            width={300}
+            height={300}
+            alt="Profile.jpg"
+          />
         </S.Image>
         <S.Info>
           <div>
