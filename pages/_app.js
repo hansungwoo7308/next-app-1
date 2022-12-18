@@ -5,35 +5,54 @@ import Footer from "../src/components/layout/Footer";
 import Script from "next/script";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
+import App from "next/app";
 
 // Page Layout Setting
 const MyApp = ({ Component, pageProps }) => {
   const router = useRouter();
   const [auth, setAuth] = useState(false);
 
-  useEffect(() => {
-    // 로그인 체크 - 초기값 설정
-    // run auth check on initial load
-    // console.log("auth : ", auth);
-    // authCheck(router.pathname);
-    // console.log("auth : ", auth);
-    //
-    // 로그인 체크하는 동안, 숨김처리하기 위해서 이벤트 등록 - hideContent
-    // set authorized to false to hide page content while changing routes
-    // const hideContent = () => setAuthorized(false);
-    // router.events.on('routeChangeStart', hideContent);
-    //
-    // 이벤트 등록 - authCheck
-    // run auth check on route change
-    // router.events.on('routeChangeComplete', authCheck)
-    //
-    // 이벤트 해제 - authCheck, hideContent
-    // unsubscribe from events in useEffect return function
-    // return () => {
-    //     router.events.off('routeChangeStart', hideContent);
-    //     router.events.off('routeChangeComplete', authCheck);
-    // }
-  });
+  // const checkLoginStatus = async () => {
+  //   const response = await fetch("/api/isLogin", {
+  //     // headers: {
+  //     //   // Authorization: "Bearer test",
+  //     // },
+  //     credentials: "include",
+  //   })
+  //     .then((response) => response.json())
+  //     .catch((error) => console.log("frontend  error occurred"));
+  //   console.log("frontend isLogin : ", response);
+  // };
+
+  // useEffect(() => {
+  //   // console.log("frontend next-app-1 rendered ------------------------");
+
+  //   // console.log("backend  router.pathname : ", router.pathname);
+
+  //   // checkLoginStatus();
+
+  //   // 로그인 체크 - 초기값 설정
+  //   // run auth check on initial load
+  //   // console.log("auth : ", auth);
+  //   // authCheck(router.pathname);
+  //   // console.log("auth : ", auth);
+  //   //
+  //   // 로그인 체크하는 동안, 숨김처리하기 위해서 이벤트 등록 - hideContent
+  //   // set authorized to false to hide page content while changing routes
+  //   // const hideContent = () => setAuthorized(false);
+  //   // router.events.on('routeChangeStart', hideContent);
+  //   //
+  //   // 이벤트 등록 - authCheck
+  //   // run auth check on route change
+  //   // router.events.on('routeChangeComplete', authCheck)
+  //   //
+  //   // 이벤트 해제 - authCheck, hideContent
+  //   // unsubscribe from events in useEffect return function
+  //   // return () => {
+  //   //     router.events.off('routeChangeStart', hideContent);
+  //   //     router.events.off('routeChangeComplete', authCheck);
+  //   // }
+  // }, [router.pathname]);
 
   const authCheck = async (routerPathname) => {
     // console.log("authCheck");
@@ -62,6 +81,13 @@ const MyApp = ({ Component, pageProps }) => {
   );
 };
 
+// export const getInitialProps = (context) => {
+//   console.log("backend  getInitialProps");
+//   return {
+//     props: {},
+//   };
+// };
+
 // export const getInitialProps = wrapper.getInitialAppProps(
 //   (store) => async (context) => {
 //     console.log("teeeeeeeeeeeeest");
@@ -86,5 +112,5 @@ const MyApp = ({ Component, pageProps }) => {
 //   return { pageProps: pageProps, store: ctx.store };
 // });
 
-// export default MyApp;
-export default wrapper.withRedux(MyApp);
+export default MyApp;
+// export default wrapper.withRedux(MyApp);

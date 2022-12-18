@@ -3,19 +3,27 @@
 // const isDev = process.env.NODE_ENV === "development";
 
 const nextConfig = {
+  // async rewrites() {
+  //   return [
+  //     {
+  //       source: '/api/:path*',
+  //       destination: `http://localhost:3000/:path*`,
+  //     },
+  //   ];
+  // },
+
   // async headers() {
   //   return [
   //     {
-  //       source: "/register",
-  //       // source: "/about",
+  //       source: "/api/:path*",
   //       headers: [
   //         {
-  //           key: "x-custom-header",
-  //           value: "my custom header value",
+  //           key: "Access-Control-Allow-origin",
+  //           value: "*",
   //         },
   //         {
-  //           key: "x-another-custom-header",
-  //           value: "my other custom header value",
+  //           key: "Access-Control-Allow-Credentials",
+  //           value: "true",
   //         },
   //       ],
   //     },

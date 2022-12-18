@@ -24,7 +24,7 @@ import { ImSpinner8, ImSpinner3 } from "react-icons/im";
 // };
 
 export default function Home(props) {
-  console.log("frontend Home");
+  // console.log("frontend Home");
   // console.log("props : ", props);
 
   // Server Side Rendering
@@ -174,7 +174,40 @@ export default function Home(props) {
 // }
 
 // Server Side
-export async function getServerSideProps() {
+export async function getServerSideProps(context) {
+  console.log(
+    "backend  / getServerSideProps --------------------------------------------------"
+  );
+  const { req } = context;
+  const cookies = req.cookies;
+  const cookie = req.headers.cookie;
+  // const cookie = res.cookie;
+  console.log("backend  cookies : ", cookies);
+  console.log("backend  cookie : ", cookie);
+
+  // console.log("backend  context.req.params : ", context.params);
+  // console.log("backend  context.req.headers : ", context.req.headers);
+  // console.log("backend  context.params : ", context.params);
+  // console.log("backend  context.query : ", context.query);
+
+  // const test = fetch('/api/isLogin', {
+  //   headers: {
+
+  //   }
+  // })
+
+  // const checkLoginStatus = async () => {
+  //   const response = await fetch("/api/isLogin", {
+  //     // headers: {
+  //     //   // Authorization: "Bearer test",
+  //     // },
+  //     credentials: "include",
+  //   })
+  //     .then((response) => response.json())
+  //     .catch((error) => console.log("frontend  error occurred"));
+  //   console.log("frontend isLogin : ", response);
+  // };
+
   return {
     props: { data: "payload" },
     // redirect: {

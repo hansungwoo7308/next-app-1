@@ -6,9 +6,22 @@ import * as S from "../../styles/pages/login.styled";
 import jwt from "jsonwebtoken";
 
 export const getServerSideProps = (context) => {
+  // const clientCookie = context.req.headers.get("authorization");
+  // console.log("backend  clientCookie : ", clientCookie);
+  // const bearerToken = context.
+  // console.log("backend  context.req.headers : ", context.req.headers);
+  // const clientCookie = context.req.headers.cookie
+  //   ? context.req.headers.cookie
+  //   : "";
+  // console.log("backend  cookie : ", clientCookie);
+  // const cookie = context.req ? context.req.headers.cookie : "";
+  // console.log("backend  getServerSideProps cookie : ", cookie);
   // console.log("context.req.cookies : ", context.req.cookies);
   // console.log("context.req.headers.cookie : ", context.req.headers.cookie);
   // console.log("context.res.statusCode : ", context.res.statusCode);
+  // return {
+  //   props: { clientCookie },
+  // };
   return {
     props: {},
   };
@@ -55,6 +68,7 @@ const Login = ({}) => {
   // });
 
   useEffect(() => {
+    // console.log("frontend document.cookie : ", document.cookie);
     // checkLoginStatus();
     //
     // console.log("sessionStorage : ", sessionStorage);
@@ -79,46 +93,58 @@ const Login = ({}) => {
     // })();
   });
 
-  const checkLoginStatus = async () => {
-    const test = await fetch("/api/auth/isLogin").then((res) => res.json());
-    if (test.status === "login") {
-      console.log("You are logged in.");
-      // return true;
-    } else {
-      // return false;
-    }
-  };
-
-  // {
-  //   method: "POST",
-  //   headers: {
-  //     Authorization: "Basic test",
-  //   },
-  // }
-
   const login = async (e) => {
     e.preventDefault();
-    const data = await fetch("/api/login", {
+    const response = await fetch("/api/login", {
       method: "POST",
       headers: {
-        // Authorization: "Bearer test",
         "Content-Type": "application/json",
       },
       body: JSON.stringify({ ...user }),
     })
       .then((response) => response.json())
-      // 서버에서 처리할 수 없는 에러를 처리한다.
-      .catch((error) => console.log("frontend-catch-error : ", error));
+      .catch((error) =>
+        console.log("frontend /api/login error occurred : ", error)
+      );
+    // console.log(
+    //   "frontend /api/login response.headers : ",
+    //   response.headers
+    // );
+    // .then((response) => {
+    //   // console.log("frontend /api/login response.json() : ", response);
+    //   // localStorage.setItem("accessToken", response.accessToken);
+    //   return response;
+    // })
+    console.log("frontend /api/login response : ", response);
+    localStorage.setItem("accessToken", response.accessToken);
+    // console.log(
+    //   "frontend /api/login response.headers.authorization : ",
+    //   response.headers.get("authorization")
+    // );
+  };
 
-    // console.log("frontend-data : ", data);
-    console.log("frontend response : ", data);
-
-    // console.log("response.isLoggedIn : ", response.isLoggedIn);
-    // if (response.isLoggedIn === true) {
-    //   setMessage("You are logged in.");
+  const testIsLogin = async (e) => {
+    e.preventDefault();
+    // console.log("frontend accessToken : ", localStorage.getItem("accessToken"));
+    // if (localStorage.getItem("accessToken")) {
     // } else {
-    //   setMessage("A error occured.");
+    //   console.log("frontend accessToken does not exist");
     // }
+
+    // const clientCookie = document.cookie;
+    // console.log("fronent  testIsLogin clientCookie : ", clientCookie);
+    const response = await fetch("/api/isLogin", {
+      // const response = await fetch("/api/isLogin", {
+      headers: {
+        Authorization: "Bearer " + localStorage.getItem("accessToken"),
+      },
+      // })
+      // credentials: "include",
+      // withCredentials: true,
+    })
+      .then((response) => response.json())
+      .catch((error) => console.log("frontend  /api/isLogin error"));
+    console.log("fronend  /api/isLogin response : ", response);
   };
 
   const logout = async (e) => {
@@ -158,24 +184,6 @@ const Login = ({}) => {
     // Redirect
   };
 
-  const handleLogin = (e) => {
-    e.preventDefault();
-
-    Axios.post("/api/login").then((res) => {
-      console.log("response : ", res);
-      // console.group("requested... and then responsed...");
-      // console.groupEnd("response : ", res);
-      // console.group("Login > API > Response : ", res);
-      // console.groupEnd();
-      if (res.status === 200) {
-        console.log("res.status === 200");
-        router.push("/auth/admin");
-        // 네비게이션 메뉴 중 login > logout 으로 변경하거나
-        // admin or username ... 으로 변경해주어야...
-      }
-    });
-  };
-
   const handleResister = (e) => {
     e.preventDefault();
     router.push("/auth/register");
@@ -194,7 +202,6 @@ const Login = ({}) => {
           </div>
         </S.Notice>
         <S.Form onSubmit={login}>
-          {/* Inputs */}
           <S.Input
             className="input"
             type="text"
@@ -215,7 +222,6 @@ const Login = ({}) => {
             onChange={(e) => setUser({ ...user, password: e.target.value })}
           />
 
-          {/* Buttons */}
           <S.Button className="button" type="submit">
             Login
           </S.Button>
@@ -244,6 +250,7 @@ const Login = ({}) => {
           {/* <S.Button className="button" onClick={handleResister}>
             Resister
           </S.Button> */}
+          <button onClick={testIsLogin}>testIsLogin</button>
         </S.Form>
       </S.Layout>
     </S.Container>
