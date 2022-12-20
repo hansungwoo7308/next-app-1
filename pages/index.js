@@ -62,7 +62,7 @@ export default function Home(props) {
     console.log("check...");
     const response = await fetch("/api/isLogin", {
       headers: {
-        Authorization: "Bearer " + "test",
+        Authorization: "Bearer " + localStorage.getItem("accessToken"),
       },
       // credentials: "include",
     })

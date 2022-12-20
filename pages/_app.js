@@ -64,6 +64,35 @@ const MyApp = ({ Component, pageProps }) => {
     }
   };
 
+  const checkLoginStatus = async () => {
+    console.log("check...");
+    const response = await fetch("/api/isLogin", {
+      headers: {
+        Authorization: "Bearer " + localStorage.getItem("accessToken"),
+      },
+      // credentials: "include",
+    })
+      .then((response) => {
+        // console.log(
+        //   "frontend /api/isLogin response.json() : ",
+        //   response.json()
+        // );
+        return response.json();
+      })
+      .catch((error) => console.log("frontend  error occurred"));
+    console.log("frontend /api/isLogin response : ", response);
+    // console.log(
+    //   "frontend /api/isLogin response.authStatus : ",
+    //   response.authStatus
+    // );
+    // if (response["authStatus"]) setAuth(true);
+    // else setAuth(false);
+  };
+
+  // useEffect(() => {
+  //   checkLoginStatus();
+  // }, [auth]);
+
   return (
     <S.Container>
       <Script

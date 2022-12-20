@@ -125,20 +125,12 @@ const Login = ({}) => {
 
   const testIsLogin = async (e) => {
     e.preventDefault();
-    // console.log("frontend accessToken : ", localStorage.getItem("accessToken"));
-    // if (localStorage.getItem("accessToken")) {
-    // } else {
-    //   console.log("frontend accessToken does not exist");
-    // }
-
     // const clientCookie = document.cookie;
     // console.log("fronent  testIsLogin clientCookie : ", clientCookie);
-    const test = localStorage.getItem("accessToken")
-      ? localStorage.getItem("accessToken")
-      : "";
+
     const response = await fetch("/api/isLogin", {
       headers: {
-        Authorization: "Bearer " + test,
+        Authorization: "Bearer " + localStorage.getItem("accessToken"),
       },
     })
       .then((response) => response.json())

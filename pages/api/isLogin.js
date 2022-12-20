@@ -46,19 +46,19 @@ export default function handler(req, res) {
   // }
 
   /* 2) decode the bearerToken */
-  console.log(`${RED}backend  verify scope debuging...${END}`);
+  // console.log(`${RED}backend  verify scope debuging...${END}`);
   const decodedUser = jwt.verify(
     bearerToken,
-    process.env.ACCESS_TOKEN_SECRET,
-    (error, decoded) => {
-      console.log(`${RED}backend  after decoding...${END}`);
-      console.log(`${RED}backend  decoded : ${decoded}${END}`);
+    process.env.ACCESS_TOKEN_SECRET
+    // (error, decoded) => {
+    //   console.log(`${RED}backend  after decoding...${END}`);
+    //   console.log(`${RED}backend  decoded : ${decoded}${END}`);
 
-      // if (error) {
-      //   // console.log("backend  jwt.verify error : ", error);
-      //   return res.status(401).json({ authStatus: false });
-      // }
-    }
+    //   // if (error) {
+    //   //   // console.log("backend  jwt.verify error : ", error);
+    //   //   return res.status(401).json({ authStatus: false });
+    //   // }
+    // }
   );
   console.log("backend  2) decodedUser : ", decodedUser);
 
