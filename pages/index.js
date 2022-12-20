@@ -200,7 +200,6 @@ export default function Home(props) {
         {/* <Carousel /> */}
       </S.Layout2>
 
-      {/* Static Site Generation */}
       {/* <S.Home>
         <S.H1>Best Products</S.H1>
         <Items list={list.slice(0, 9)} />
@@ -208,7 +207,6 @@ export default function Home(props) {
         <Items list={list.slice(9)} />
       </S.Home> */}
 
-      {/* Server Side Rendering */}
       {/* {isLoading ? (
         <Loader active inline="centered" style={{ margin: "100px" }}>
           Loading
