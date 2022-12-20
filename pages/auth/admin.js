@@ -8,16 +8,16 @@ const Admin = () => {
   const router = useRouter();
   const [isLogin, setIsLogin] = useState(false);
 
-  const checkLogin = () => {
-    Axios.get("/api/isLogin").then((res) => {
-      if (res.status === 200 && res.data) {
-        console.log("response : ", res);
-        setIsLogin(true);
-      } else {
-        router.push("/auth/login");
-      }
-    });
-  };
+  // const checkLogin = () => {
+  //   Axios.get("/api/isLogin").then((res) => {
+  //     if (res.status === 200 && res.data) {
+  //       console.log("response : ", res);
+  //       setIsLogin(true);
+  //     } else {
+  //       router.push("/auth/login");
+  //     }
+  //   });
+  // };
 
   const handleLogout = () => {
     Axios.get("/api/logout").then((res) => {
@@ -28,9 +28,9 @@ const Admin = () => {
     });
   };
 
-  useEffect(() => {
-    checkLogin();
-  }, []);
+  // useEffect(() => {
+  //   checkLogin();
+  // }, []);
 
   return (
     <S.Container>
