@@ -83,9 +83,9 @@ export default function Home(props) {
     // else setAuth(false);
   };
 
-  useEffect(() => {
-    checkLoginStatus();
-  }, [auth]);
+  // useEffect(() => {
+  //   checkLoginStatus();
+  // }, [auth]);
 
   // console.log("props : ", props);
 

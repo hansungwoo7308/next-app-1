@@ -85,13 +85,14 @@ const MyApp = ({ Component, pageProps }) => {
     //   "frontend /api/isLogin response.authStatus : ",
     //   response.authStatus
     // );
-    // if (response["authStatus"]) setAuth(true);
+    // if (response.authStatus) setAuth(true);
     // else setAuth(false);
   };
 
-  // useEffect(() => {
-  //   checkLoginStatus();
-  // }, [auth]);
+  useEffect(() => {
+    checkLoginStatus();
+    console.log("frontend _app.js authStatus : ", auth);
+  });
 
   return (
     <S.Container>
