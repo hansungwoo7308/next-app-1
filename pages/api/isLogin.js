@@ -30,8 +30,13 @@ export default function handler(req, res) {
   const bearerToken =
     req.headers.authorization && req.headers.authorization.split(" ")[1];
   console.log("backend  1) bearerToken : ", bearerToken);
+  // console.log("backend  !bearerToken : ", !bearerToken);
+  // console.log("backend  bearerToken === null : ", bearerToken === null);
 
-  if (!bearerToken) return res.status(401).json({ message: "401" });
+  if (!bearerToken)
+    return res
+      .status(400)
+      .json({ authStatus: false, message: "bearerToken is required." });
 
   // const token = req.headers.cookie;
   // console.log("backend  req.headers.cookie : ", req.headers.cookie);
@@ -40,10 +45,27 @@ export default function handler(req, res) {
   //   return res.status(401).json({ message: "401" });
   // }
 
-  /* 2) verify the authorization */
-  const decodedUser = jwt.verify(bearerToken, process.env.ACCESS_TOKEN_SECRET);
-  if (!decodedUser) res.status(403).json({ message: "Verification failed." });
+  /* 2) decode the bearerToken */
+  console.log(`${RED}backend  verify scope debuging...${END}`);
+  const decodedUser = jwt.verify(
+    bearerToken,
+    process.env.ACCESS_TOKEN_SECRET,
+    (error, decoded) => {
+      console.log(`${RED}backend  after decoding...${END}`);
+      console.log(`${RED}backend  decoded : ${decoded}${END}`);
+
+      // if (error) {
+      //   // console.log("backend  jwt.verify error : ", error);
+      //   return res.status(401).json({ authStatus: false });
+      // }
+    }
+  );
   console.log("backend  2) decodedUser : ", decodedUser);
+
+  if (!decodedUser)
+    return res
+      .status(403)
+      .json({ authStatus: false, message: "Decoding failed." });
   // console.log(`${RED}backend  decodedUser : ${END}`, decodedUser);
 
   /* 3) find the user data with decoded user data in the database */
@@ -54,12 +76,16 @@ export default function handler(req, res) {
   console.log("backend  3) foundUser : ", foundUser);
 
   if (!foundUser)
-    return res.status(401).json({ message: "requested user is not found." });
+    return res
+      .status(401)
+      .json({ authStatus: false, message: "requested user is not found." });
 
   /* 4) send the response */
-  res
-    .status(200)
-    .json({ message: "You are logged in.", verifiedUser: foundUser });
+  return res.status(200).json({
+    authStatus: true,
+    message: "You are logged in.",
+    verifiedUser: foundUser,
+  });
 
   // jwt.verify(bearerToken, process.env.ACCESS_TOKEN_SECRET, (error, decoded) => {
   //   // if (error) return res.status(403).json({ message: "Verification failed." });

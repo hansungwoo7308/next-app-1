@@ -133,17 +133,16 @@ const Login = ({}) => {
 
     // const clientCookie = document.cookie;
     // console.log("fronent  testIsLogin clientCookie : ", clientCookie);
+    const test = localStorage.getItem("accessToken")
+      ? localStorage.getItem("accessToken")
+      : "";
     const response = await fetch("/api/isLogin", {
-      // const response = await fetch("/api/isLogin", {
       headers: {
-        Authorization: "Bearer " + localStorage.getItem("accessToken"),
+        Authorization: "Bearer " + test,
       },
-      // })
-      // credentials: "include",
-      // withCredentials: true,
     })
       .then((response) => response.json())
-      .catch((error) => console.log("frontend  /api/isLogin error"));
+      .catch((error) => console.log("frontend  /api/isLogin error : ", error));
     console.log("fronend  /api/isLogin response : ", response);
   };
 

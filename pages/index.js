@@ -1,13 +1,12 @@
 import Head from "next/head";
-import Axios from "axios";
 import * as S from "../styles/pages/Home.styled";
 import Slider from "../src/components/Slider";
 import Carousel from "../src/components/Carousel";
 import Landing from "../src/components/Landing";
 import { useSelector } from "react-redux";
-import { useEffect } from "react";
 import { ImSpinner8, ImSpinner3 } from "react-icons/im";
-// import { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
+// import Axios from "axios";
 
 // export const getStaticProps = async () => {
 //   const ACCESS_KEY = `dOIA85pHFvSq2jSkD2L06etILKKN0oQCKZzJ3CNYCPE`;
@@ -23,8 +22,71 @@ import { ImSpinner8, ImSpinner3 } from "react-icons/im";
 //   };
 // };
 
+/* 16진수 표기법 */
+// 30 black / 31 red / 32 green / 33 yellow / 34 blue / 37 white / 0 origin color
+const RED = "\x1b[31m";
+const GREEN = "\x1b[32m";
+const YELLOW = "\x1b[33m";
+const BLUE = "\x1b[34m";
+const END = "\x1b[0m";
+
+export async function getServerSideProps(context) {
+  console.log(
+    `${YELLOW}backend  pages/ pre-render --------------------------------------------------------------${END}`
+  );
+
+  // console.log("backend  context : ", context);
+  // console.log("backend  context.req.headers : ", context.req.headers);
+  // console.log("backend  context.req.rawHeaders : ", context.req.rawHeaders);
+  // console.log("backend  context.req.url : ", context.req.url);
+  // console.log("backend  context.req.cookies : ", context.req.cookies);
+  // console.log("backend  context.query : ", context.query);
+
+  return {
+    props: { data: "payload" },
+    // redirect: {
+    //   destination: "/about",
+    //   // permanent: false,
+    // },
+  };
+}
+
 export default function Home(props) {
+  console.log(
+    `${BLUE}frontend  pages/ render --------------------------------------------------------------${END}`
+  );
   // console.log("frontend Home");
+  const [auth, setAuth] = useState(false);
+
+  const checkLoginStatus = async () => {
+    console.log("check...");
+    const response = await fetch("/api/isLogin", {
+      headers: {
+        Authorization: "Bearer " + "test",
+      },
+      // credentials: "include",
+    })
+      .then((response) => {
+        // console.log(
+        //   "frontend /api/isLogin response.json() : ",
+        //   response.json()
+        // );
+        return response.json();
+      })
+      .catch((error) => console.log("frontend  error occurred"));
+    console.log("frontend /api/isLogin response : ", response);
+    // console.log(
+    //   "frontend /api/isLogin response.authStatus : ",
+    //   response.authStatus
+    // );
+    // if (response["authStatus"]) setAuth(true);
+    // else setAuth(false);
+  };
+
+  useEffect(() => {
+    checkLoginStatus();
+  }, [auth]);
+
   // console.log("props : ", props);
 
   // Server Side Rendering
@@ -174,45 +236,3 @@ export default function Home(props) {
 // }
 
 // Server Side
-export async function getServerSideProps(context) {
-  console.log(
-    "backend  / getServerSideProps --------------------------------------------------"
-  );
-  const { req } = context;
-  const cookies = req.cookies;
-  const cookie = req.headers.cookie;
-  // const cookie = res.cookie;
-  console.log("backend  cookies : ", cookies);
-  console.log("backend  cookie : ", cookie);
-
-  // console.log("backend  context.req.params : ", context.params);
-  // console.log("backend  context.req.headers : ", context.req.headers);
-  // console.log("backend  context.params : ", context.params);
-  // console.log("backend  context.query : ", context.query);
-
-  // const test = fetch('/api/isLogin', {
-  //   headers: {
-
-  //   }
-  // })
-
-  // const checkLoginStatus = async () => {
-  //   const response = await fetch("/api/isLogin", {
-  //     // headers: {
-  //     //   // Authorization: "Bearer test",
-  //     // },
-  //     credentials: "include",
-  //   })
-  //     .then((response) => response.json())
-  //     .catch((error) => console.log("frontend  error occurred"));
-  //   console.log("frontend isLogin : ", response);
-  // };
-
-  return {
-    props: { data: "payload" },
-    // redirect: {
-    //   destination: "/about",
-    //   // permanent: false,
-    // },
-  };
-}
