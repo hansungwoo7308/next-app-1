@@ -1,5 +1,3 @@
-// set and clear message
-
 import { createSlice } from "@reduxjs/toolkit";
 
 const messageSlice = createSlice({

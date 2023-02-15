@@ -1,25 +1,79 @@
-// middleware.ts
-import { NextResponse, userAgent } from "next/server";
-import { NextRequest } from "next/server";
-import jwt from "jsonwebtoken";
+// backend before request : middleware.ts
+// useAuth hook을 사용하여 인증상태를 체크해서
+// protected routes를 구현하자(역할베이스 - 특정경로를 특정역할만 접근허용)
+// 참고 : the middleware size is limited to 1MB
 
-// This function can be marked `async` if using `await` inside
-export function middleware(request: NextRequest) {
-  // console.log("backend  middleware occurred -----------------------------");
+import { NextRequest, NextResponse, userAgent } from "next/server";
+export { default } from "next-auth/middleware";
+import { getToken } from "next-auth/jwt";
+
+/* 16진수 표기법 */
+// 30 black / 31 red / 32 green / 33 yellow / 34 blue / 37 white / 0 origin color
+const RED = "\x1b[31m";
+const GREEN = "\x1b[32m";
+const YELLOW = "\x1b[33m";
+const BLUE = "\x1b[34m";
+const END = "\x1b[0m";
+
+// imposible modules
+// import jwt from "jsonwebtoken";
+// import useAuth from './core/hooks/useAuth'
+
+export async function middleware(request: NextRequest) {
+  const { pathname } = request.nextUrl;
+  const accessToken = request.headers.get("authorization");
+  const token = await getToken({ req: request });
+
+  console.log("");
+  console.log(`${YELLOW}1. middleware${END}`);
+  console.log("");
+  // console.log("pathname : ", pathname);
+  // console.log("accessToken : ", accessToken);
+  // console.log('middleware    request.headers : ', request.headers)
+
+  // protected route 를 구현하기 위해서는, 아래의 조건을 확인한다.
+  // 1) pathname : protected route
+  // 2) roles : 페이지 접근 권한을 부여 > 클라이언트의 역할과 서버의 역할(기준)을 비교
+  // 서버의 역할(기준)이 다르면, 리다이렉션한다.
+
+  // 특정 역할만 접근가능하도록 한다
+  if (pathname.startsWith("/auth/admin")) {
+    console.log("your pathname starts with /pages/auth/admin...");
+  }
+  console.log("");
+
+  // console.log(
+  //   `${BLUE}middleware    request : ${JSON.stringify(request)}${END}`
+  // );
+  // console.log(`${BLUE}middleware    request.url : ${request.url}${END}`);
+  // console.log(
+  //   `${BLUE}middleware    request.headers : ${JSON.stringify(
+  //     request.headers
+  //   )}${END}`
+  // );
+  // console.log(
+  //   `${BLUE}middleware    request.nextUrl : ${request.nextUrl}${END}`
+  // );
+
+  // if (token) {
+  //   // Signed in
+  //   console.log("middleware  token : ", JSON.stringify(token, null, 2));
+  // } else {
+  //   // Not Signed in
+  //   // res.status(401)
+  //   console.log("middleware  token do not exist");
+  // }
+  // // res.end()
+
+  // console.log(
+  //   "backend  refreshToken : ",
+  //   // "backend  request.cookies.get('jwt') : ",
+  //   request.cookies.get("jwt")
+  // );
+  // console.log("backend  request : ", request);
   // console.log("backend  request.headers : ", request.headers);
-  // // console.log("backend  request.cookies : ", request.cookies);
-  // const test = request.cookies.get("accessToken");
-  // console.log("backend  accessToken : ", test);
-  // const checkLoginStatus = async () => {
-  //   const response = await fetch("/api/isLogin", {
-  //     headers: {
-  //       Authorization: "Bearer test",
-  //     },
-  //   })
-  //     .then((response) => response.json())
-  //     .catch((error) => console.log("frontend  error occurred"));
-  //   console.log("frontend isLogin : ", response);
-  // };
+  // console.log("backend  request.nextUrl : ", request.nextUrl);
+  // console.log("backend  NextResponse : ", NextResponse);
   // const reqHeadersAuth = request.headers['authorization'];
   // const authBearerToken = reqHeadersAuth && reqHeadersAuth.split(" ")[1];
   // // handle the [exception]
@@ -44,7 +98,6 @@ export function middleware(request: NextRequest) {
   // const ua = userAgent(request);
   // console.log("backend  userAgent : ", ua);
   // const req = request;
-  // const reqUa = request.ua;
   // const reqHeaders = request.headers;
   // console.log("backend  req : ", req);
   // console.log("backend  req.ua : ", reqUa);
@@ -66,8 +119,18 @@ export function middleware(request: NextRequest) {
   // return NextResponse.redirect("http://localhost:3000/about");
 }
 
-// See "Matching Paths" below to learn more
 export const config = {
+  matcher: [
+    // "/",
+    // "/blog",
+    // "/about",
+    // "/auth/register",
+    // "/auth/signin",
+    "/auth/admin",
+  ],
+  // matcher: ["/api/auth/signin"], // 동적경로는 무효화, 정적경로만 유효화
   // matcher: ["/", "/products", "/about", "/register", "/login"],
-  matcher: "/about/:path*", // matcher path에 매칭된 요청은 위의 미들웨어를 실행한다.
+  // matcher: "/:path*", // matcher path에 매칭된 요청은 위의 미들웨어를 실행한다.
+  // matcher: "/", // matcher path에 매칭된 요청은 위의 미들웨어를 실행한다.
+  // matcher: "/about/:path*", // matcher path에 매칭된 요청은 위의 미들웨어를 실행한다.
 };

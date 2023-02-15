@@ -23,6 +23,6 @@ export const usersSlice = createSlice({
   // },
 });
 
-export const { add } = usersSlice.actions; // 액션사용을 위한...
+export const { add } = usersSlice.actions;
 
-export default usersSlice.reducer; // 스토어셋팅을 위한...
+export default usersSlice.reducer;

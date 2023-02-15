@@ -11,8 +11,8 @@ export const Container = styled.div`
 
 export const Layout = styled.div`
   width: 80%;
-  min-width: 1000px;
   height: calc(100vh - var(--header-height));
+  min-width: 500px;
   display: flex;
   /* flex-direction: column; */
   align-items: center;

@@ -22,21 +22,16 @@ const usersDatabase = {
 };
 
 export default function handler(req, res) {
-  console.log(
-    `backend  ${YELLOW}/api/isLogin ------------------------------------------------------------------------------${END}`
-  );
+  console.log(`${YELLOW}pages/api/checkAuth${END}`);
 
-  /* 1) get the bearerToken */
+  /* 1) get the accessToken */
   const bearerToken =
     req.headers.authorization && req.headers.authorization.split(" ")[1];
-  console.log("backend  1) bearerToken : ", bearerToken);
-  // console.log("backend  !bearerToken : ", !bearerToken);
-  // console.log("backend  bearerToken === null : ", bearerToken === null);
-
+  console.log("pages/api/checkAuth  1) accessToken : ", bearerToken);
   if (!bearerToken)
     return res
       .status(400)
-      .json({ authStatus: false, message: "bearerToken is required." });
+      .json({ authStatus: false, message: "accessToken is required." });
 
   // const token = req.headers.cookie;
   // console.log("backend  req.headers.cookie : ", req.headers.cookie);

@@ -13,7 +13,7 @@ export const Container = styled.div`
 // 레이아웃은 페이지단에서만 정의하자
 export const Layout1 = styled.div`
   width: 80%;
-  min-width: 1000px;
+  /* min-width: 1000px; */
   height: calc(100vh - var(--header-height));
   /* border: 3px dashed red; */
   display: flex;
@@ -23,7 +23,7 @@ export const Layout1 = styled.div`
 
 export const Layout2 = styled.div`
   width: 80%;
-  min-width: 1000px;
+  /* min-width: 1000px; */
   height: calc(100vh - var(--header-height));
   /* border: 3px dashed; */
   display: flex;

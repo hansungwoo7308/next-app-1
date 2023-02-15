@@ -3,16 +3,12 @@ import { useEffect, useRef, useState } from "react";
 import { FaPhone } from "react-icons/fa";
 import { GoMail } from "react-icons/go";
 import { MdPlace } from "react-icons/md";
+
 import * as S from "../../styles/pages/about.styled";
 
 const About = () => {
-  // Create
   const [index, setIndex] = useState(0);
   const [initialFocus, setInitialFocus] = useState();
-
-  // const test = new URL("http://localhost:3000/");
-  // const test = new URL("/about", "http://localhost:3000/");
-  // console.log("frontend-url : ", test);
 
   useEffect(() => {
     // Read
@@ -38,14 +34,19 @@ const About = () => {
     });
   }, []);
 
+  // logs
+  console.log("");
+  console.log("\x1b[32m/about\x1b[0m");
+  console.log("");
+
   return (
     <S.Container>
       <S.Layout>
         <S.Image>
           <Image
             src="/images/Profile.JPG"
-            width={300}
-            height={300}
+            width={200}
+            height={200}
             alt="Profile.jpg"
           />
         </S.Image>

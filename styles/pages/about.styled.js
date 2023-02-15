@@ -13,28 +13,29 @@ export const Container = styled.div`
 
 export const Layout = styled.div`
   width: 80%;
-  min-width: 1000px;
   height: calc(100vh - var(--header-height));
+  min-width: var(--width-layout);
   border: 3px dashed;
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 50px;
+  padding: 0 50px;
+  /* gap: 50px; */
 `;
 
 export const Image = styled.div`
-  width: 200px;
-  height: 200px;
+  min-width: 150px;
+  min-height: 150px;
   border-radius: 50%;
   overflow: hidden;
   border: 5px solid black;
 `;
 
 export const Info = styled.div`
-  width: 500px;
+  width: 400px;
   height: 50%;
   /* border: 3px dashed coral; */
-  padding: 30px;
+  padding: 0 0 0 50px;
   display: flex;
   flex-direction: column;
   justify-content: center;

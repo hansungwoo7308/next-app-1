@@ -61,9 +61,10 @@ export const Info = styled.div`
   width: 50%;
   max-height: 150px;
 
-  h5 {
+  h3 {
     text-align: center;
-    margin-bottom: 10px;
+    margin-top: 30px;
+    margin-bottom: 30px;
   }
 
   p {

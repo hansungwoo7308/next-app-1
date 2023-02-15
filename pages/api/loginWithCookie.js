@@ -45,9 +45,11 @@ const usersDatabase = {
 // console.log("usersDatabase.users : ", usersDatabase.users);
 
 export default function handler(req, res) {
-  console.log(`${YELLOW}/api/login${END}`);
-  // console.log("/api/login   req.body : ", req.body);
+  console.log(
+    `backend  ${YELLOW}/api/loginWithCookie ------------------------------------------------------------------------------${END}`
+  );
   // console.log("backend  req.headers : ", req.headers);
+  console.log("backend  req.body : ", req.body);
 
   if (req.method !== "POST")
     return res
@@ -63,23 +65,23 @@ export default function handler(req, res) {
     (user) =>
       user.email === req.body.email && user.password === req.body.password
   );
-  console.log("/api/login   1) foundUser : ", foundUser);
+  console.log("backend  1) foundUser : ", foundUser);
+
   if (!foundUser)
     return res.status(401).json({ message: "Your admin is not found." });
 
   /* 2) issue a jwt */
   const user = { email: req.body.email, password: req.body.password };
   const accessToken = jwt.sign(user, process.env.ACCESS_TOKEN_SECRET);
-  console.log("/api/login   2) accessToken : ", accessToken);
+  console.log("backend  2) accessToken : ", accessToken);
 
   /* 3) send the response */
-  res.status(200).json({
-    accessToken: accessToken,
-    authStatus: true,
-    message: "accessToken is issued.",
-  });
+  res
+    .status(200)
+    .setHeader("Set-Cookie", `accessToken=${accessToken}`)
+    .json({ message: "accessToken is issued." });
+  // .json({ accessToken: accessToken, message: "accessToken is issued." });
   // .setHeader("Authorization", "Bearer " + accessToken)
-  // .setHeader("Set-Cookie", "a_name=Mike;Max-Age=0;HttpOnly,Secure")
   // .setHeader("Set-Cookie", "a_name=Mike;HttpOnly,Secure")
 
   // if (req.method === "POST") {

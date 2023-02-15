@@ -12,11 +12,7 @@ const YELLOW = "\x1b[33m";
 const BLUE = "\x1b[34m";
 const END = "\x1b[0m";
 
-const Register = () => {
-  console.log(
-    `${GREEN}twoends  pages/register --------------------------------------------------------------${END}`
-  );
-
+const Signup = () => {
   const [values, setValues] = useState({
     // id: "",
     name: "",
@@ -57,10 +53,13 @@ const Register = () => {
 
   // console.log('wath("name") : ', watch("name"));
 
+  // logs
+  console.log(`${GREEN}/auth/signup${END}`);
+
   return (
     <S.Container>
       <Head>
-        <title>Register</title>
+        <title>Signup</title>
       </Head>
       <S.Layout>
         {/* <S.Billboard>
@@ -150,4 +149,4 @@ const Register = () => {
   );
 };
 
-export default Register;
+export default Signup;

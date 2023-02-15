@@ -5,6 +5,14 @@ import { useEffect } from "react";
 import { wrapper } from "../../core/redux/store";
 import * as S from "../../styles/pages/products.styled";
 
+/* 16진수 표기법 */
+// 30 black / 31 red / 32 green / 33 yellow / 34 blue / 37 white / 0 origin color
+const RED = "\x1b[31m";
+const GREEN = "\x1b[32m";
+const YELLOW = "\x1b[33m";
+const BLUE = "\x1b[34m";
+const END = "\x1b[0m";
+
 // // (Wrapping...)
 // export const getStaticProps = wrapper.getStaticProps((store) => async () => {
 //   const data = await fetch(
@@ -45,12 +53,8 @@ export const getStaticProps = async (context) => {
     // `http://localhost:8080/api/posts`
   ).then((data) => data.json());
 
-  const test = "asdasd";
-
   return {
     props: {
-      // items: test,
-      test: test,
       items: data,
       // revalidate: 20, // 처음 접속후 20초후에 리제너레이션
     },
@@ -58,26 +62,12 @@ export const getStaticProps = async (context) => {
 };
 
 // const Product = () => {
-const Products = ({ items, test }) => {
-  console.log("test : ", test);
+const Products = ({ items }) => {
+  console.log(
+    `${GREEN}twoends  pages/products --------------------------------------------------------------${END}`
+  );
+
   // console.log("items : ", items);
-
-  // const test = () => {
-  //   const promise = fetch(`https://picsum.photos/v2/list?page=2&limit=10`).then(
-  //     (response) => {
-  //       // console.log("response : ", response);
-  //       console.log("response.json() : ", response.json());
-  //       return response;
-  //     }
-  //   );
-  //   console.log("promise : ", promise);
-  // };
-
-  // useEffect(() => {
-  //   test();
-  // });
-
-  console.log("redered.");
 
   return (
     <S.Container>

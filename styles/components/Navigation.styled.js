@@ -3,7 +3,9 @@ import styled, { css } from "styled-components";
 export const Container = styled.div`
   width: 100%;
   height: 100%;
+  min-width: 500px;
   display: flex;
+  /* justify-content: space-around; */
   justify-content: space-between;
   /* border: 3px solid red; */
 
@@ -46,11 +48,11 @@ export const List = styled.ul`
   /* border: 3px solid red; */
   /* align-items: center; */
 
-  .authBtn {
+  /* .authBtn {
     border: 1px solid coral;
-  }
+  } */
 
-  @media screen and (max-width: 1000px) {
+  @media screen and (max-width: 800px) {
     width: 100%;
     height: calc(100vh - var(--header-height));
     display: flex;
@@ -71,9 +73,11 @@ export const Item = styled.li`
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
   transition: all 0.5s;
   font-weight: bold;
   position: relative;
+  cursor: pointer;
   &::after {
     content: "";
     transition: all 0.5s;
@@ -109,7 +113,7 @@ export const Item = styled.li`
     display: flex;
   }
 
-  @media screen and (max-width: 1000px) {
+  @media screen and (max-width: 800px) {
     height: auto;
 
     // Item:hover > after
@@ -132,7 +136,6 @@ export const SubList = styled.ul`
   flex-direction: column;
   list-style: none;
   display: none;
-  /*  */
   /* border: 1px solid red; */
   background-color: #111;
   gap: 10px;
@@ -183,14 +186,15 @@ export const AsideItem = styled.li`
 export const Hamburger = styled.div`
   width: 80px;
   height: 100%;
-  text-align: center;
+  /* text-align: center; */
   display: none;
+  /* border: 3px solid blue; */
 
   &:hover {
     color: #fff;
   }
 
-  @media screen and (max-width: 1000px) {
+  @media screen and (max-width: 800px) {
     display: flex;
     align-items: center;
     justify-content: center;

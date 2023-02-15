@@ -1,19 +1,41 @@
-import * as S from "../styles/_app.styled";
-import Header from "../src/components/layout/Header";
-import { wrapper } from "../core/redux/store";
-import Footer from "../src/components/layout/Footer";
-import Script from "next/script";
+// modules
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
-import App from "next/app";
+import Script from "next/script";
+import { SessionProvider } from "next-auth/react";
+// import App from "next/app";
 
-// Page Layout Setting
+// custom mudules
+import { AuthProvider } from "../core/provider/AuthProvider"; // for client state
+// import { wrapper } from "../core/redux/store";
+
+import Header from "../src/components/layout/Header";
+// import Footer from "../src/components/layout/Footer";
+import * as S from "../styles/_app.styled";
+
+// 16진수 표기법
+// 30 black / 31 red / 32 green / 33 yellow / 34 blue / 37 white / 0 origin color
+const RED = "\x1b[31m";
+const GREEN = "\x1b[32m";
+const YELLOW = "\x1b[33m";
+const BLUE = "\x1b[34m";
+const END = "\x1b[0m";
+
+// data centralization
 const MyApp = ({ Component, pageProps }) => {
-  const router = useRouter();
-  const [auth, setAuth] = useState(false);
+  // console.log("_app   Component : ", Component); // 각 페이지
+  // console.log("_app   pageProps : ", pageProps); // 각 페이지의 프로퍼티
 
-  // const checkLoginStatus = async () => {
-  //   const response = await fetch("/api/isLogin", {
+  // const router = useRouter();
+  // const [auth, setAuth] = useState(false);
+
+  // console.log(`${GREEN}Component : ${(<Component />)}${END}`);
+  // console.log(
+  //   `${GREEN}frontend _app.js (server and client) -------------------------------------------------${END}`
+  // );
+
+  // const checkAuth = async () => {
+  //   const response = await fetch("/api/checkLogin", {
   //     // headers: {
   //     //   // Authorization: "Bearer test",
   //     // },
@@ -21,15 +43,13 @@ const MyApp = ({ Component, pageProps }) => {
   //   })
   //     .then((response) => response.json())
   //     .catch((error) => console.log("frontend  error occurred"));
-  //   console.log("frontend isLogin : ", response);
+  //   console.log("frontend checkLogin : ", response);
   // };
 
   // useEffect(() => {
   //   // console.log("frontend next-app-1 rendered ------------------------");
-
   //   // console.log("backend  router.pathname : ", router.pathname);
-
-  //   // checkLoginStatus();
+  //   // checkAuth();
 
   //   // 로그인 체크 - 초기값 설정
   //   // run auth check on initial load
@@ -54,69 +74,61 @@ const MyApp = ({ Component, pageProps }) => {
   //   // }
   // }, [router.pathname]);
 
-  const authCheck = async (routerPathname) => {
-    // console.log("authCheck");
-    const data = await fetch("/pages/api/isLogin").then((res) => res.json());
-    if (data.status === "login") {
-      setAuth(true);
-    } else {
-      setAuth(false);
-    }
-  };
+  // const checkAuth = async () => {
+  //   const response = await fetch("/api/checkLogin", {
+  //     headers: {
+  //       Authorization: "Bearer " + localStorage.getItem("accessToken"),
+  //     },
+  //     // credentials: "include",
+  //   })
+  //     .then((response) => response.json())
+  //     .catch((error) => console.log("frontend  error occurred"));
+  //   console.log("frontend /api/checkLogin response : ", response);
+  //   // console.log(
+  //   //   "frontend /api/checkLogin response.authStatus : ",
+  //   //   response.authStatus
+  //   // );
+  //   // if (response.authStatus) setAuth(true);
+  //   // else setAuth(false);
+  //   if (response?.authStatus) setAuth(true);
+  //   else setAuth(false);
+  // };
 
-  const checkLoginStatus = async () => {
-    console.log("check...");
-    const response = await fetch("/api/isLogin", {
-      headers: {
-        Authorization: "Bearer " + localStorage.getItem("accessToken"),
-      },
-      // credentials: "include",
-    })
-      .then((response) => {
-        // console.log(
-        //   "frontend /api/isLogin response.json() : ",
-        //   response.json()
-        // );
-        return response.json();
-      })
-      .catch((error) => console.log("frontend  error occurred"));
-    console.log("frontend /api/isLogin response : ", response);
-    // console.log(
-    //   "frontend /api/isLogin response.authStatus : ",
-    //   response.authStatus
-    // );
-    // if (response.authStatus) setAuth(true);
-    // else setAuth(false);
-  };
-
-  useEffect(() => {
-    checkLoginStatus();
-    console.log("frontend _app.js authStatus : ", auth);
-  });
+  // useEffect(() => {
+  //   // checkAuth();
+  //   // console.log(
+  //   //   `${RED}frontend _app.js (client) -------------------------------------------------${END}`
+  //   // );
+  //   // console.log(`${BLUE}frontend authStatus : ${auth}${END}`);
+  // });
 
   return (
     <S.Container>
-      <Script
-        async
-        defer
-        crossOrigin="anonymous"
-        src="https://connect.facebook.net/en_US/sdk.js"
-      />
+      <SessionProvider session={pageProps.session}>
+        <AuthProvider>
+          {/* facebook sdk */}
+          <Script
+            async
+            defer
+            crossOrigin="anonymous"
+            src="https://connect.facebook.net/en_US/sdk.js"
+          />
 
-      <S.GlobalStyles />
-      <Header />
-      <Component {...pageProps} />
-      {/* <Footer /> */}
+          {/* styles */}
+          <S.GlobalStyles />
+
+          {/* include the navigation menu */}
+          <Header />
+
+          {/* page component */}
+          <Component {...pageProps} />
+
+          {/* <Footer /> */}
+        </AuthProvider>
+      </SessionProvider>
     </S.Container>
   );
 };
-
-// export const getInitialProps = (context) => {
-//   console.log("backend  getInitialProps");
-//   return {
-//     props: {},
-//   };
-// };
 
 // export const getInitialProps = wrapper.getInitialAppProps(
 //   (store) => async (context) => {

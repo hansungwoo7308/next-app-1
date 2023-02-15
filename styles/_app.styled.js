@@ -39,6 +39,9 @@ export const GlobalStyles = createGlobalStyle`
     // --attribue-identifier
 
     // Colors
+    --color-main: #00704a;
+    --color-second: #1e3932;
+
     --color-black: #000;
     --color-white: #fff;
     --color-primary: #00704a;
@@ -51,6 +54,9 @@ export const GlobalStyles = createGlobalStyle`
     // Height
     --height-header: 70px;
     --height-footer: 500px;
+
+    // Width
+    --width-layout: 500px
 
   }
 

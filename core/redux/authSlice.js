@@ -1,6 +1,8 @@
 // signup, signin, signout
 
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit"; // studying...
+// createAsyncThunk() : return thunk action creator that will run the promise callback and dispatch actions
+
 import authServices from "../../src/services/auth.service";
 import { setMessage } from "./messageSlice";
 
@@ -69,10 +71,13 @@ const initialState = user
       user,
     };
 
+// integrating
 const authSlice = createSlice({
   name: "auth",
   initialState,
   extraReducers: {
+    // asynchronous works
+    // computed property?
     [register.fulfilled]: (state, action) => {
       state.isLoggedIn = false;
     },

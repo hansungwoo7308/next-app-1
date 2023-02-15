@@ -1,11 +1,17 @@
+// modules
+import { useEffect, useState } from "react";
+// import { useSelector } from "react-redux";
 import Head from "next/head";
+import { ImSpinner8, ImSpinner3 } from "react-icons/im";
+import { useSession, signIn, signOut } from "next-auth/react";
+
+// custom modules
+import useAuth from "../core/hooks/useAuth";
 import * as S from "../styles/pages/Home.styled";
 import Slider from "../src/components/Slider";
 import Carousel from "../src/components/Carousel";
 import Landing from "../src/components/Landing";
-import { useSelector } from "react-redux";
-import { ImSpinner8, ImSpinner3 } from "react-icons/im";
-import { useEffect, useState } from "react";
+
 // import Axios from "axios";
 
 // export const getStaticProps = async () => {
@@ -30,20 +36,46 @@ const YELLOW = "\x1b[33m";
 const BLUE = "\x1b[34m";
 const END = "\x1b[0m";
 
+// export const getServerSideProps = wrapper.getServerSideProps(
+//   async (context) => {
+//     // 프론트 서버에 쿠키 넣어주기
+//     // console.log('getServerSideProps start');
+//     console.log(context.req.headers);
+//     const cookie = context.req ? context.req.headers.cookie : '';
+//     // 브라우저에서 받은 요청에 쿠키가 있을 때만 넣어주기
+//     axios.defaults.headers.Cookie = '';
+//     if (context.req && cookie) {
+//       axios.defaults.headers.Cookie = cookie;
+//     }
+//     context.store.dispatch(
+//       login.request({ eamil: 'email', password: 'password' }),
+//     );
+//     // dispatch가 끝났음을 알려줌
+//     context.store.dispatch(END);
+//     console.log('getServerSideProps end');
+//     // saga의 비동기 이벤트 설정
+//     // await context.store.sagaTask.toPromise();
+//   },
+// );
+
 export async function getServerSideProps(context) {
-  console.log(
-    `${YELLOW}backend  pages/ pre-render --------------------------------------------------------------${END}`
-  );
+  // console.log(
+  //   `${YELLOW}backend  pages/ pre-render --------------------------------------------------------------${END}`
+  // );
+
+  // console.log("backend  context.response : ", context.res);
 
   // console.log("backend  context : ", context);
   // console.log("backend  context.req.headers : ", context.req.headers);
-  // console.log("backend  context.req.rawHeaders : ", context.req.rawHeaders);
-  // console.log("backend  context.req.url : ", context.req.url);
   // console.log("backend  context.req.cookies : ", context.req.cookies);
+
+  // console.log("backend  context.req.url : ", context.req.url);
   // console.log("backend  context.query : ", context.query);
+  // const test = JSON.stringify({ ...context });
+  // console.log("backend  test : ", test);
 
   return {
-    props: { data: "payload" },
+    props: { data: "something" },
     // redirect: {
     //   destination: "/about",
     //   // permanent: false,
@@ -52,40 +84,45 @@ export async function getServerSideProps(context) {
 }
 
 export default function Home(props) {
-  console.log(
-    `${BLUE}frontend  pages/ render --------------------------------------------------------------${END}`
-  );
-  // console.log("frontend Home");
-  const [auth, setAuth] = useState(false);
+  // react context module
+  // const { auth, setAuth, isUserAuthenticated } = useAuth();
+  // const { auth, signin, isUserAuthenticated, test } = useAuth();
 
-  const checkLoginStatus = async () => {
-    console.log("check...");
-    const response = await fetch("/api/isLogin", {
-      headers: {
-        Authorization: "Bearer " + localStorage.getItem("accessToken"),
-      },
-      // credentials: "include",
-    })
-      .then((response) => {
-        // console.log(
-        //   "frontend /api/isLogin response.json() : ",
-        //   response.json()
-        // );
-        return response.json();
-      })
-      .catch((error) => console.log("frontend  error occurred"));
-    console.log("frontend /api/isLogin response : ", response);
-    // console.log(
-    //   "frontend /api/isLogin response.authStatus : ",
-    //   response.authStatus
-    // );
-    // if (response["authStatus"]) setAuth(true);
-    // else setAuth(false);
-  };
+  // next-auth session module
+  const { data: session, status } = useSession();
+
+  // const checkAuth = async () => {
+  //   const response = await fetch("/api/checkAuth", {
+  //     headers: {
+  //       Authorization: "Bearer " + localStorage.getItem("accessToken"),
+  //     },
+  //     // credentials: "include",
+  //   })
+  //     .then((response) => {
+  //       // console.log(
+  //       //   "frontend /api/checkAuth response.json() : ",
+  //       //   response.json()
+  //       // );
+  //       return response.json();
+  //     })
+  //     .catch((error) => console.log("frontend  error occurred"));
+  //   console.log("frontend /api/checkAuth response : ", response);
+  //   // console.log(
+  //   //   "frontend /api/checkAuth response.authStatus : ",
+  //   //   response.authStatus
+  //   // );
+  //   // if (response["authStatus"]) setAuth(true);
+  //   // else setAuth(false);
+  //   if (response?.authStatus) setAuth(true);
+  //   else setAuth(false);
+  // };
 
   // useEffect(() => {
-  //   checkLoginStatus();
-  // }, [auth]);
+  //   console.log(
+  //     `${BLUE}frontend  pages/ sideEffect --------------------------------------------------------------${END}`
+  //   );
+  //   // checkAuth();
+  // });
 
   // console.log("props : ", props);
 
@@ -158,17 +195,104 @@ export default function Home(props) {
   //   };
   // }, []);
 
-  return (
-    <S.Container>
-      <Head>
-        <title>Beauty Product</title>
-        <meta name="description" content="Beauty Product" />
-      </Head>
+  // useEffect(() => {
+  //   // console.log("pages/  signin() : ", signin());
+  //   // const test = signin("jack", "123");
+  //   // console.log("test : ", test);
+  //   // signin("jack2", "123");
+  //   // test("jack", "123");
+  // }, []);
 
+  const something = async () => {
+    const result = await fetch("/api/auth/signin", {
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(),
+    });
+  };
+
+  // logs
+  console.log("");
+  console.log(`${GREEN}/${END}`);
+  // console.log("auth : ", auth);
+  // console.log("isUserAuthenticated() : ", isUserAuthenticated());
+  console.log("");
+
+  return (
+    // <S.Container>
+    <>
       <S.Layout2>
+        {/* <div>
+          <button
+            onClick={async (e) => {
+              e.preventDefault();
+              try {
+                const response = await signIn("credentials", {
+                  // signIn('credentials',payload)
+                  // pages/api/auth/[...nextauth] 중에서
+                  // CredentialProvider 가 하나이면
+                  // authorize custom callback function 으로 인증을 구현하고
+                  // 사용자 객체를 리턴한다.
+                  username: "somethingId",
+                  password: "somethingPassword",
+                });
+                console.log("twoends  signin  response : ", response);
+              } catch (error) {
+                console.log("twoends  signin  response error : ", error);
+              }
+            }}
+          >
+            Sign In
+          </button>
+          <br />
+          <button onClick={() => signOut()}>Sign Out</button>
+        </div> */}
+        <div>
+          <h1>testing...</h1>
+          {/* <br /> */}
+          {/* <button onClick={() => something()}>signin</button> */}
+        </div>
+      </S.Layout2>
+      {/* {isUserAuthenticated() ? (
+        <S.Container>
+          <Head>
+            <title>Beauty Product</title>
+            <meta name="description" content="Beauty Product" />
+          </Head>
+          <S.Layout2>
+            <h1>You have a accessToken.</h1>
+          </S.Layout2>
+        </S.Container>
+      ) : (
+        <S.Container>
+          <Head>
+            <title>Beauty Product</title>
+            <meta name="description" content="Beauty Product" />
+          </Head>
+          <S.Layout2>
+            <h1>You have not a accessToken.</h1>
+          </S.Layout2>
+        </S.Container>
+      )} */}
+    </>
+  );
+}
+
+// Static Site Generation
+// export async function getStaticProps() {
+//   const apiUrl = process.env.apiUrl;
+//   const res = await Axios.get(apiUrl);
+//   const data = res.data;
+//   return { props: { list: data, name: process.env.name } };
+// }
+
+// Server Side
+
+/* <S.Layout2>
         <ImSpinner8 className="spinner" size={50} />
-        {/* <ImSpinner3 className="spinner" size={50} /> */}
-        {/* <input
+      </S.Layout2> */
+/* <input
           type="button"
           id="authBtn"
           value="checking..."
@@ -189,25 +313,24 @@ export default function Home(props) {
             }
           }}
         />
-        <span id="name"></span> */}
-        {/* <div
+        <span id="name"></span> */
+/* <div
           className="fb-like"
           data-share="true"
           data-width="450"
           data-show-faces="true"
-        ></div> */}
-        {/* <Slider data={data} /> */}
-        {/* <Carousel /> */}
-      </S.Layout2>
+        ></div> */
+/* <Slider data={data} /> */
+/* <Carousel /> */
 
-      {/* <S.Home>
+/* <S.Home>
         <S.H1>Best Products</S.H1>
         <Items list={list.slice(0, 9)} />
         <S.H1>New Arrivals</S.H1>
         <Items list={list.slice(9)} />
-      </S.Home> */}
+      </S.Home> */
 
-      {/* {isLoading ? (
+/* {isLoading ? (
         <Loader active inline="centered" style={{ margin: "100px" }}>
           Loading
         </Loader>
@@ -220,17 +343,5 @@ export default function Home(props) {
           <Divider />
           <Items list={list.slice(9)} />
         </>
-      )} */}
-    </S.Container>
-  );
-}
-
-// Static Site Generation
-// export async function getStaticProps() {
-//   const apiUrl = process.env.apiUrl;
-//   const res = await Axios.get(apiUrl);
-//   const data = res.data;
-//   return { props: { list: data, name: process.env.name } };
-// }
-
-// Server Side
+      )} */
+// </S.Container>
