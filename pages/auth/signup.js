@@ -1,16 +1,13 @@
-import Head from "next/head";
-import { useRouter } from "next/router";
 import { useState, useRef, useEffect } from "react";
+import { useRouter } from "next/router";
+import { useSession } from "next-auth/react";
 import { useForm } from "react-hook-form";
+import axios from "axios";
+import Head from "next/head";
+
 import * as S from "../../styles/pages/register.styled";
 
-/* 16진수 표기법 */
-// 30 black / 31 red / 32 green / 33 yellow / 34 blue / 37 white / 0 origin color
-const RED = "\x1b[31m";
-const GREEN = "\x1b[32m";
-const YELLOW = "\x1b[33m";
-const BLUE = "\x1b[34m";
-const END = "\x1b[0m";
+let renderCount = 0;
 
 const Signup = () => {
   const [values, setValues] = useState({
@@ -22,8 +19,14 @@ const Signup = () => {
   });
 
   const router = useRouter();
+  const { status } = useSession();
 
-  // 리액트-훅-폼 API > 디스트럭쳐링...
+  // reference
+  const nameRef = useRef();
+  const emailRef = useRef();
+  const passwordRef = useRef();
+  const passwordConfirmRef = useRef();
+
   const {
     register,
     handleSubmit,
@@ -32,121 +35,154 @@ const Signup = () => {
     formState: { errors },
   } = useForm();
 
-  // 패스워드 확인을 위한 > 패스워드 레퍼런스...
   const password = useRef();
   password.current = watch("password");
+  // passwordRef.current = watch("name");
 
-  // 폼 > 이벤트 핸들러에 사용될 > 콜백펑션...
-  const onSubmit = (data) => {
-    console.log("data : ", data);
-    setValues({ ...data });
-    // setValues({ data });
-
-    // setTimeout(() => {
-    //   router.push("/auth/login");
-    // }, 3000);
+  const handleSignup = async (e) => {
+    e.preventDefault();
+    // console.log("e : ", e);
+    // handleSubmit()
+    const result = await axios.post("/api/auth/signup");
+    console.log("result : ", result);
   };
 
   useEffect(() => {
     setFocus("name", { shouldSelect: true });
   }, [setFocus]);
 
-  // console.log('wath("name") : ', watch("name"));
+  renderCount++;
 
   // logs
-  console.log(`${GREEN}/auth/signup${END}`);
+  console.log("");
+  console.log("\x1b[32m/auth/signup\x1b[0m");
+  console.log("error : ", errors);
+  console.log("watch : ", watch());
+  console.log("");
 
-  return (
-    <S.Container>
-      <Head>
-        <title>Signup</title>
-      </Head>
-      <S.Layout>
-        {/* <S.Billboard>
-          <h1>Component Local State</h1>
-          <div>
-            <pre>{JSON.stringify(values, null, 4)}</pre>
+  if (status === "authenticated") router.push("/");
+  else if (status === "loading")
+    return (
+      <S.Container>
+        <Head>
+          <title>Signup</title>
+        </Head>
+        <S.Layout style={{ position: "relative" }}>
+          <h1>Loading...</h1>
+        </S.Layout>
+      </S.Container>
+    );
+  else if (status === "unauthenticated")
+    return (
+      <S.Container>
+        <Head>
+          <title>Signup</title>
+        </Head>
+        <S.Layout style={{ position: "relative" }}>
+          <div
+            style={{
+              position: "absolute",
+              top: "20px",
+              right: "20px",
+              fontSize: "18px",
+              fontWeight: "800",
+            }}
+          >
+            <span>renderCount : </span>
+            {renderCount}
           </div>
-        </S.Billboard> */}
-        {/* <pre>{JSON.stringify(isValid, null, 4)}</pre> */}
-        <S.Form onSubmit={handleSubmit(onSubmit)}>
-          <S.Div>
-            <S.Input
-              className="input"
-              type="text"
-              placeholder="Name"
-              {...register("name", {
-                required: true,
-                maxLength: 5,
-              })}
-            />
-            <div>
-              {errors.name && errors.name.type === "required" && (
+          <form onSubmit={handleSignup}>
+            <button style={{ color: "red" }}>Signup</button>
+          </form>
+          <S.Form
+            // onSubmit={handleSignup}
+            onSubmit={handleSubmit((data) => console.log("data : ", data))}
+          >
+            <S.Div>
+              <S.Input
+                className="input"
+                type="text"
+                placeholder="Name"
+                {...register("name", {
+                  required: "This is required",
+                  // required: true,
+                  maxLength: 10,
+                })}
+              />
+              <div>
+                {errors.name && errors.name.type === "required" && (
+                  <p>This field is required.</p>
+                )}
+                {errors.name && errors.name.type === "maxLength" && (
+                  <p>Max Length is 5 character.</p>
+                )}
+              </div>
+            </S.Div>
+            <S.Div>
+              <S.Input
+                className="input"
+                type="email"
+                placeholder="Email"
+                autoComplete="off"
+                {...register("email", {
+                  required: "This is required",
+                  // required: true,
+                  maxLength: 10,
+                })}
+              />
+              {errors.email && <p>This email field is required.</p>}
+            </S.Div>
+            <S.Div>
+              <S.Input
+                className="input"
+                type="password"
+                placeholder="Password"
+                {...register("password", {
+                  // required: true,
+                  required: "This is required",
+                  maxLength: 10,
+                  minLength: {
+                    value: 4,
+                    message: "Min length is 4",
+                  },
+                })}
+              />
+              {errors.password && errors.password.type === "required" && (
                 <p>This field is required.</p>
               )}
-              {errors.name && errors.name.type === "maxLength" && (
-                <p>Max Length is 5 character.</p>
+              {errors.password && errors.password.type === "maxLength" && (
+                <p>Password max length is 10 characters.</p>
               )}
-            </div>
-          </S.Div>
-          <S.Div>
-            <S.Input
-              className="input"
-              type="email"
-              placeholder="Email"
-              autoComplete="off"
-              {...register("email", {
-                required: true,
-                maxLength: 10,
-              })}
-            />
-            {errors.email && <p>This email field is required.</p>}
-          </S.Div>
-          <S.Div>
-            <S.Input
-              className="input"
-              type="password"
-              placeholder="Password"
-              {...register("password", {
-                required: true,
-                maxLength: 10,
-              })}
-            />
-            {errors.password && errors.password.type === "required" && (
-              <p>This field is required.</p>
-            )}
-            {errors.password && errors.password.type === "maxLength" && (
-              <p>Password max length is 10 characters.</p>
-            )}
-          </S.Div>
-          <S.Div>
-            <S.Input
-              className="input"
-              type="password"
-              placeholder="Password Confirm"
-              {...register("passwordConfirm", {
-                required: true,
-                validate: (passwordConfirm) => {
-                  return passwordConfirm === password.current;
-                },
-              })}
-            />
-            {errors.passwordConfirm &&
-              errors.passwordConfirm.type === "required" && (
-                <p>This field is required.</p>
-              )}
-            {errors.passwordConfirm &&
-              errors.passwordConfirm.type === "validate" && (
-                <p>The password is not matched.</p>
-              )}
-          </S.Div>
-          <S.Button className="button" type="submit">
-            Sign Up
-          </S.Button>
-        </S.Form>
-      </S.Layout>
-    </S.Container>
-  );
+            </S.Div>
+            <S.Div>
+              <S.Input
+                className="input"
+                type="password"
+                placeholder="Password Confirm"
+                {...register("passwordConfirm", {
+                  // required: true,
+                  required: "This is required",
+                  validate: (passwordConfirm) => {
+                    return passwordConfirm === password.current;
+                  },
+                })}
+              />
+              {errors.passwordConfirm &&
+                errors.passwordConfirm.type === "required" && (
+                  <p>This field is required.</p>
+                )}
+              {errors.passwordConfirm &&
+                errors.passwordConfirm.type === "validate" && (
+                  <p>The password is not matched.</p>
+                )}
+            </S.Div>
+            <S.Button className="button" type="submit">
+              Sign Up
+            </S.Button>
+          </S.Form>
+        </S.Layout>
+      </S.Container>
+    );
 };
 
 export default Signup;

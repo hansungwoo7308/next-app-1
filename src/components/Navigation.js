@@ -20,7 +20,6 @@ const END = "\x1b[0m";
 const Navigation = () => {
   const router = useRouter();
   const { status } = useSession();
-  // const { auth, setAuth, isUserAuthenticated } = useAuth();
 
   // 프로퍼티의 상태에 따라서 css를 제어하기위한, isClicked and clickedItem
   const [isClicked, setIsClicked] = useState(false);
@@ -30,7 +29,6 @@ const Navigation = () => {
   useEffect(() => {
     changeClickedItem(); // 현재 pathname에 따라서 state 변경
   });
-  // }, [router.pathname]);
 
   /* comments */
   // const [authBtnLabel, setAuthBtnLabel] = useState("Sign In");
@@ -238,7 +236,8 @@ const Navigation = () => {
         </S.Item> */}
         <S.Item clickedItem={clickedItem === "signin"}>
           {status === "authenticated" ? (
-            <a onClick={() => signOut({ callbackUrl: "/auth/signin" })}>
+            <a onClick={() => signOut()}>
+              {/* <a onClick={() => signOut({ callbackUrl: "/auth/signin" })}> */}
               Sign out
             </a>
           ) : (

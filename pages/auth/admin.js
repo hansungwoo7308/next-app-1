@@ -1,18 +1,37 @@
 import Axios from "axios";
 import Image from "next/image";
 import { useRouter } from "next/router";
-import { signOut, useSession } from "next-auth/react";
+
+import { getSession, signOut, useSession } from "next-auth/react";
+import { getServerSession } from "next-auth";
+import { authOptions } from "../api/auth/[...nextauth]";
+
 // import { useEffect, useState } from "react";
 
 import * as S from "../../styles/pages/admin.styled";
-import useAuth from "../../core/hooks/useAuth";
+
+// export async function getServerSideProps(context) {
+//   // const session = await getSession(context);
+//   const session = await getServerSession(context.req, context.res, authOptions);
+
+//   if (!session) {
+//     return {
+//       redirect: {
+//         destination: "/",
+//         permanent: false,
+//       },
+//     };
+//   }
+
+//   return {
+//     props: {
+//       session,
+//     },
+//   };
+// }
 
 const Admin = () => {
   const router = useRouter();
-
-  // react context state and so on
-  // const { auth, setAuth, isUserAuthenticated } = useAuth();
-
   const { status } = useSession();
 
   // next-auth state
@@ -80,7 +99,8 @@ const Admin = () => {
   // logs
   console.log("");
   console.log("\x1b[32m/auth/admin\x1b[0m");
-  console.log("status : ", status);
+  // console.log("session : ", session);
+  // console.log("status : ", status);
   console.log("");
 
   if (status === "authenticated")

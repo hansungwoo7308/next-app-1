@@ -46,18 +46,16 @@ export const AuthProvider = ({ children }) => {
   // };
 
   // logs
-  console.log("");
-  console.log("\x1b[31m2. AuthProvider\x1b[0m");
-  console.log("session : ", session);
-  console.log("status : ", status);
-  // console.log("auth : ", auth);
-  // console.log("isAuthenticated : ", isAuthenticated);
-  console.log("");
+  // console.log("");
+  // console.log("\x1b[31m2. AuthProvider\x1b[0m");
+  // console.log("session : ", session);
+  // // console.log("status : ", status);
+  // // console.log("auth : ", auth);
+  // // console.log("isAuthenticated : ", isAuthenticated);
+  // console.log("");
 
   return (
-    <AuthContext.Provider
-      value={{ auth, setAuth, isUserAuthenticated, signin }}
-    >
+    <AuthContext.Provider value={{ auth, setAuth, isUserAuthenticated }}>
       {children}
     </AuthContext.Provider>
   );

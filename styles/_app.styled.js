@@ -24,6 +24,8 @@ export const GlobalStyles = createGlobalStyle`
     color: inherit;
   }
 
+  
+
   :root{
     // --identifier-attribute (Using...)
     --main--color: #00704a;

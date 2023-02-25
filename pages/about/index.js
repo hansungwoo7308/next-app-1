@@ -1,4 +1,7 @@
+import { getSession, useSession } from "next-auth/react";
+
 import Image from "next/image";
+
 import { useEffect, useRef, useState } from "react";
 import { FaPhone } from "react-icons/fa";
 import { GoMail } from "react-icons/go";
@@ -6,9 +9,32 @@ import { MdPlace } from "react-icons/md";
 
 import * as S from "../../styles/pages/about.styled";
 
-const About = () => {
+import { requireAuth } from "../../src/utils/requireAuth";
+
+export async function getServerSideProps(context) {
+  const session = await getSession(context);
+  console.log("session : ", session);
+
+  if (!session) {
+    return {
+      redirect: {
+        destination: "/auth/signin",
+        permanent: false,
+      },
+    };
+  }
+
+  return {
+    props: {
+      session,
+    },
+  };
+}
+
+const About = ({ session }) => {
   const [index, setIndex] = useState(0);
   const [initialFocus, setInitialFocus] = useState();
+  // const { data: session2 } = useSession();
 
   useEffect(() => {
     // Read
@@ -37,6 +63,8 @@ const About = () => {
   // logs
   console.log("");
   console.log("\x1b[32m/about\x1b[0m");
+  // console.log("session : ", session);
+  // console.log("session2 : ", session2);
   console.log("");
 
   return (

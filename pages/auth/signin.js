@@ -2,78 +2,41 @@ import { useRef, useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import { signIn, signOut, useSession } from "next-auth/react";
 import Head from "next/head";
-import Axios from "axios";
-import jwt from "jsonwebtoken";
+// import Axios from "axios";
+// import jwt from "jsonwebtoken";
 
-import useAuth from "../../core/hooks/useAuth";
+// import useAuth from "../../core/hooks/useAuth";
 import * as S from "../../styles/pages/login.styled";
 
 const Signin = (props) => {
-  // navigator instance
   const router = useRouter();
 
-  // module using react context module
-  // custom hook for using the react context provider
-  // the provider contains the properties that have the auth, setAuth, ...
-  const { auth, setAuth, isUserAuthenticated } = useAuth();
-
-  // next-auth session module
   const { status } = useSession();
 
-  // local state
-  const focus = useRef();
+  // using react context (global state)
+  // custom hook for using the react context provider
+  // the provider contains the properties that have the auth, setAuth, ...
+  // const { auth, setAuth, isUserAuthenticated } = useAuth();
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   // const [user, setUser] = useState({ email: "", password: "" });
   // const [auth, setAuth] = useState(false);
+  const emailRef = useRef();
+  const passwordRef = useRef();
 
   useEffect(() => {
-    focus.current.focus();
+    emailRef.current.focus();
   }, []);
 
-  const signin = async (e) => {
+  const handleSignin = async (e) => {
     e.preventDefault();
-    const result = await signIn("credentials", {
-      email,
-      password,
+    await signIn("credentials", {
+      email: emailRef.current.value,
+      password: passwordRef.current.value,
       callbackUrl: "/auth/admin",
       // redirect: false,
     });
-
-    // const response = await fetch("/api/auth/signin", {
-    //   method: "POST",
-    //   headers: {
-    //     "Content-Type": "application/json",
-    //   },
-    //   body: JSON.stringify({ email, password }),
-    // })
-    //   .then((response) => response.json())
-    //   .catch((error) =>
-    //     console.log("pages/auth/signin   /api/auth/signin   error : ", error)
-    //   );
-
-    console.log("/auth/signin   /api/auth/signin   result : ", result);
-    // localStorage.setItem("accessToken", response.accessToken);
-
-    // // backend 으로부터 받은 accessToken 을 react context provider 에 저장한다.
-    // if (response?.authStatus) {
-    //   setAuth({ accessToken: "something" });
-    //   // AuthProvider 의 상태변경에 따라 전체컴포넌트의 렌더링이 된다.
-    //   router.push("/auth/admin");
-    // } else {
-    //   router.push("/auth/signin");
-    // }
-  };
-
-  const signout = async (e) => {
-    e.preventDefault();
-    const response = await fetch("/api/auth/signout").then((response) =>
-      response.json()
-    );
-    console.log("/auth/signin   /api/auth/signout   response : ", response);
-    // localStorage.setItem("accessToken", response.accessToken);
-    // setAuth(false);
-    // router.push("/");
   };
 
   // // auth
@@ -145,11 +108,16 @@ const Signin = (props) => {
   //   else setAuth(false);
   // };
 
-  // logs
+  // logging
+  console.log("");
   console.log("\x1b[32m/auth/signin\x1b[0m");
-  console.log("status : ", status);
+  // console.log("email : ", emailRef.current?.value);
+  // console.log("password : ", passwordRef.current?.value);
+  // console.log("status : ", status);
   // console.log("router.pathname : ", router.pathname);
   console.log("");
+
+  if (status === "authenticated") router.push("/");
 
   return (
     <S.Container>
@@ -163,10 +131,14 @@ const Signin = (props) => {
             type="text"
             className="input"
             placeholder="Email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            // 1) state
+            // value={email}
+            // onChange={(e) => setEmail(e.target.value)}
+
+            // 2) reference
+            ref={emailRef}
+
             // onChange={(e) => setUser({ ...user, email: e.target.value })}
-            ref={focus}
             // isFocusedOut={isFocusedOut ? true : false}
             // onBlur={handleFocus}
             // focused={focused.toString()}
@@ -176,11 +148,16 @@ const Signin = (props) => {
             type="password"
             className="input"
             placeholder="Password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
+            // 1) state
+            // value={password}
+            // onChange={(e) => setPassword(e.target.value)}
+
+            // 2) reference
+            ref={passwordRef}
+
             // onChange={(e) => setUser({ ...user, password: e.target.value })}
           />
-          {status === "authenticated" ? (
+          {/* {status === "authenticated" ? (
             <S.Button
               className="button"
               onClick={(e) => {
@@ -191,20 +168,10 @@ const Signin = (props) => {
               Sign out
             </S.Button>
           ) : (
-            <S.Button
-              className="button"
-              onClick={(e) => {
-                e.preventDefault();
-                signIn("credentials", {
-                  email: email,
-                  password: password,
-                  callbackUrl: "/auth/admin",
-                });
-              }}
-            >
-              Sign in
-            </S.Button>
-          )}
+          )} */}
+          <S.Button className="button" onClick={handleSignin}>
+            Sign in
+          </S.Button>
           <S.Button
             className="button"
             onClick={(e) => {

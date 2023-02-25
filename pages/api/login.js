@@ -46,9 +46,8 @@ const usersDatabase = {
 
 export default function handler(req, res) {
   console.log(`${YELLOW}/api/login${END}`);
-  // console.log("/api/login   req.body : ", req.body);
-  // console.log("backend  req.headers : ", req.headers);
 
+  // something...
   if (req.method !== "POST")
     return res
       .status(400)

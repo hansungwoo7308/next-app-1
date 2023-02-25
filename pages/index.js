@@ -39,8 +39,6 @@ const END = "\x1b[0m";
 // export const getServerSideProps = wrapper.getServerSideProps(
 //   async (context) => {
 //     // 프론트 서버에 쿠키 넣어주기
-//     // console.log('getServerSideProps start');
-//     console.log(context.req.headers);
 //     const cookie = context.req ? context.req.headers.cookie : '';
 //     // 브라우저에서 받은 요청에 쿠키가 있을 때만 넣어주기
 //     axios.defaults.headers.Cookie = '';
@@ -52,7 +50,6 @@ const END = "\x1b[0m";
 //     );
 //     // dispatch가 끝났음을 알려줌
 //     context.store.dispatch(END);
-//     console.log('getServerSideProps end');
 //     // saga의 비동기 이벤트 설정
 //     // await context.store.sagaTask.toPromise();
 //   },
@@ -88,7 +85,6 @@ export default function Home(props) {
   // const { auth, setAuth, isUserAuthenticated } = useAuth();
   // const { auth, signin, isUserAuthenticated, test } = useAuth();
 
-  // next-auth session module
   const { data: session, status } = useSession();
 
   // const checkAuth = async () => {
@@ -124,9 +120,6 @@ export default function Home(props) {
   //   // checkAuth();
   // });
 
-  // console.log("props : ", props);
-
-  // Server Side Rendering
   // const [list, setList] = useState([]);
   // const [isLoading, setIsLoading] = useState(true);
 
@@ -143,14 +136,6 @@ export default function Home(props) {
   //   });
   // };
 
-  // useEffect(() => {
-  //   getData();
-  // }, []);
-
-  // const test = useSelector((state) => state);
-  // console.log("test : ", test);
-
-  // ------------
   // const setLoginStatus = (response) => {
   //   if (response.status === "connected") {
   //     document.querySelector("#authBtn").value = "logout";
@@ -195,32 +180,42 @@ export default function Home(props) {
   //   };
   // }, []);
 
-  // useEffect(() => {
-  //   // console.log("pages/  signin() : ", signin());
-  //   // const test = signin("jack", "123");
-  //   // console.log("test : ", test);
-  //   // signin("jack2", "123");
-  //   // test("jack", "123");
-  // }, []);
+  const getTime = () => {
+    const time = new Date();
 
-  const something = async () => {
-    const result = await fetch("/api/auth/signin", {
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(),
-    });
+    const year = time.getFullYear();
+    const month = time.getMonth();
+    const date = time.getDate();
+    const hour = time.getHours();
+    const minutes = time.getMinutes();
+    const seconds = time.getSeconds();
+
+    const formatedMonth = `${month + 1 >= 10 ? month + 1 : "0" + (month + 1)}`;
+    const formatedDate = `${date >= 10 ? date : "0" + date}`;
+    const formatedHour = `${hour >= 10 ? hour : "0" + hour}`;
+    const formatedMinutes = `${minutes >= 10 ? minutes : "0" + minutes}`;
+    const formatedSeconds = `${seconds >= 10 ? seconds : "0" + seconds}`;
+
+    // const result = `${year}-${month}-${date}  ${hour}:${minutes}:${seconds}`;
+    // return result;
+    // console.log("result : ", result);
+    const formatedResult = `${year}-${formatedMonth}-${formatedDate}      ${formatedHour}:${formatedMinutes}:${formatedSeconds}`;
+    return formatedResult;
   };
 
   // logs
   console.log("");
   console.log(`${GREEN}/${END}`);
+  console.log(getTime());
+  // console.log("month : ", month);
+  // console.log("some : ", some);
+  // console.log("year : ", year);
+  // console.log("session : ", session);
   // console.log("auth : ", auth);
   // console.log("isUserAuthenticated() : ", isUserAuthenticated());
   console.log("");
 
   return (
-    // <S.Container>
     <>
       <S.Layout2>
         {/* <div>
@@ -230,10 +225,6 @@ export default function Home(props) {
               try {
                 const response = await signIn("credentials", {
                   // signIn('credentials',payload)
-                  // pages/api/auth/[...nextauth] 중에서
-                  // CredentialProvider 가 하나이면
-                  // authorize custom callback function 으로 인증을 구현하고
-                  // 사용자 객체를 리턴한다.
                   username: "somethingId",
                   password: "somethingPassword",
                 });
@@ -250,31 +241,9 @@ export default function Home(props) {
         </div> */}
         <div>
           <h1>testing...</h1>
-          {/* <br /> */}
           {/* <button onClick={() => something()}>signin</button> */}
         </div>
       </S.Layout2>
-      {/* {isUserAuthenticated() ? (
-        <S.Container>
-          <Head>
-            <title>Beauty Product</title>
-            <meta name="description" content="Beauty Product" />
-          </Head>
-          <S.Layout2>
-            <h1>You have a accessToken.</h1>
-          </S.Layout2>
-        </S.Container>
-      ) : (
-        <S.Container>
-          <Head>
-            <title>Beauty Product</title>
-            <meta name="description" content="Beauty Product" />
-          </Head>
-          <S.Layout2>
-            <h1>You have not a accessToken.</h1>
-          </S.Layout2>
-        </S.Container>
-      )} */}
     </>
   );
 }
@@ -286,62 +255,3 @@ export default function Home(props) {
 //   const data = res.data;
 //   return { props: { list: data, name: process.env.name } };
 // }
-
-// Server Side
-
-/* <S.Layout2>
-        <ImSpinner8 className="spinner" size={50} />
-      </S.Layout2> */
-/* <input
-          type="button"
-          id="authBtn"
-          value="checking..."
-          onClick={(e) => {
-            // branch
-            if (e.target.value === "login") {
-              FB.login((response) => {
-                // after login, set the input value.
-                setLoginStatus(response);
-                console.log("login-response : ", response);
-              });
-            } else {
-              FB.logout((response) => {
-                // after logout, set the input value.
-                setLoginStatus(response);
-                console.log("logout-response : ", response);
-              });
-            }
-          }}
-        />
-        <span id="name"></span> */
-/* <div
-          className="fb-like"
-          data-share="true"
-          data-width="450"
-          data-show-faces="true"
-        ></div> */
-/* <Slider data={data} /> */
-/* <Carousel /> */
-
-/* <S.Home>
-        <S.H1>Best Products</S.H1>
-        <Items list={list.slice(0, 9)} />
-        <S.H1>New Arrivals</S.H1>
-        <Items list={list.slice(9)} />
-      </S.Home> */
-
-/* {isLoading ? (
-        <Loader active inline="centered" style={{ margin: "100px" }}>
-          Loading
-        </Loader>
-      ) : (
-        <>
-          <Header>Best Products</Header>
-          <Divider />
-          <Items list={list.slice(0, 9)} />
-          <Header>New Arrivals</Header>
-          <Divider />
-          <Items list={list.slice(9)} />
-        </>
-      )} */
-// </S.Container>
