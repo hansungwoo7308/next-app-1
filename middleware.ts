@@ -83,27 +83,24 @@ async function middleware(request: NextRequest) {
 
 export default withAuth(
   async function middleware(req: NextRequest) {
-    console.log("");
-    console.log("\x1b[31m1. middleware\x1b[0m");
-
-    const token = await getToken({ req: req, secret: SECRET });
-    console.log("token : ", token);
-
+    // console.log("");
+    // console.log("\x1b[31m1. middleware\x1b[0m");
+    // const token = await getToken({ req: req, secret: SECRET });
+    // console.log("token : ", token);
     // const token = await getToken({ req: req, secret: SECRET, raw: true });
     // console.log("token.role : ", token.role);
     // const session = await getSession({req})
-
-    console.log("");
-    if (req.nextUrl.pathname.startsWith("/auth/admin")) {
-      return NextResponse.rewrite(req.url);
-    }
+    // console.log("");
+    // if (req.nextUrl.pathname.startsWith("/auth/admin")) {
+    //   return NextResponse.rewrite(req.url);
+    // }
   },
   {
     callbacks: {
       authorized: async (params) => {
         // authorized: ({ token }) => {
-        console.log("params : ", params);
-        console.log("token in middleware : ", params.token);
+        // console.log("params : ", params);
+        // console.log("token in middleware : ", params.token);
         return true;
       },
       // authorized: ({ token }) => token?.role === "admin",

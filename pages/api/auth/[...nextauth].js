@@ -1,25 +1,23 @@
 import NextAuth from "next-auth";
 import CredentialProvider from "next-auth/providers/credentials";
-// import jwt from "jsonwebtoken";
-// import GithubProvider from "next-auth/providers/github";
 
 export const authOptions = {
-  session: {
-    strategy: "jwt",
-  },
+  // session: {
+  //   strategy: "jwt",
+  // },
 
   providers: [
     CredentialProvider({
       // id: 'something', // CredentialProviders 중에서 CredentialProvider 를 특정하기 위한 프로퍼티
       name: "Credentials", // Sign in with "Credentials"
-      credentials: {
-        username: { label: "Username", type: "text", placeholder: "username" },
-        password: {
-          label: "Password",
-          type: "password",
-          placeholder: "password",
-        },
-      }, // you can set the html input tag attribute
+      // credentials: {
+      //   username: { label: "Username", type: "text", placeholder: "username" },
+      //   password: {
+      //     label: "Password",
+      //     type: "password",
+      //     placeholder: "password",
+      //   },
+      // }, // you can set the html input tag attribute
       async authorize(credentials, req) {
         // handler
         // database 연결을 여기서 하고 데이터 유효성 검사를 한다.
@@ -79,54 +77,36 @@ export const authOptions = {
   ],
 
   callbacks: {
-    async jwt(params) {
-      // async jwt({ token, account }) {
-      // 토큰(token.userRole)에 역할 설정을 이 콜백에서 한다.
-      // 그러기 위해서는, 데이터베이스와 연결 후에 역할을 알아와야 한다.
-
-      // 서버에서 토큰을 만들고 나서 클라이언트에 토큰을 리턴?
-      // 토큰의 일부정보만 볼 수 있다?
-      console.log("");
-      console.log("\x1b[33m/api/auth/[...nextauth]/callbacks/jwt\x1b[0m");
-      // console.log("account : ", account);
-      console.log("params : ", params);
-
-      // Persist the OAuth access_token to the token right after signin
-      // if (account) {
-      //   // token.accessToken = account.access_token;
-      //   // token.role = "adminPersist";
-      //   token.role = account?.role;
+    async jwt({ token, user }) {
+      // Oauth // Persist the OAuth access_token to the token right after signin
+      // if (params.account) {
+      //   params.token.accessToken = params.account.access_token;
       // }
-      if (params.user?.role) {
-        params.token.role = params.user.role;
-      }
 
+      console.log("");
+      console.log("\x1b[33m/api/auth/callbacks/jwt\x1b[0m");
+      // console.log("token : ", token);
+      // console.log("user : ", user);
+      if (user) {
+        token.role = user.role;
+      }
       // console.log("token : ", token);
       console.log("");
 
-      return params.token;
+      return token;
     },
-    async session({ session, token, user }) {
-      // session.user.role = user.role;
+    async session({ session, token }) {
       console.log("");
-      console.log("\x1b[33m/api/auth/[...nextauth]/callbacks/session\x1b[0m");
-      console.log("token : ", token);
+      console.log("\x1b[33m/api/auth/callbacks/session\x1b[0m");
+      // console.log("token : ", token);
+      // assign the roles
+      if (session.user) {
+        session.user.role = token.role;
+      }
       console.log("session : ", session);
-      // console.log("user : ", user);
-
-      // if (session.user) {
-      //   // Send properties to the client, like an access_token from a provider.
-      //   // session.accessToken = token.accessToken;
-      //   session?.user?.role = user?.role;
-      // }
-      if (session.user) session.user.role = user?.role;
-      console.log("session : ", session);
-
-      // console.log("session : ", session);
-      // console.log("user : ", user);
       console.log("");
 
-      return session; // useSession hook 의 returned value
+      return session;
     },
   },
 
@@ -144,7 +124,7 @@ export const authOptions = {
   //   },
   // },
 
-  secret: process.env.NEXTAUTH_SECRET,
+  // secret: process.env.NEXTAUTH_SECRET,
 };
 
 export default NextAuth(authOptions);

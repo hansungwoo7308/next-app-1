@@ -10,27 +10,27 @@ import { authOptions } from "../api/auth/[...nextauth]";
 
 import * as S from "../../styles/pages/admin.styled";
 
-// export async function getServerSideProps(context) {
-//   // const session = await getSession(context);
-//   const session = await getServerSession(context.req, context.res, authOptions);
+export async function getServerSideProps(context) {
+  const session = await getSession(context);
+  // const session = await getServerSession(context.req, context.res, authOptions);
 
-//   if (!session) {
-//     return {
-//       redirect: {
-//         destination: "/",
-//         permanent: false,
-//       },
-//     };
-//   }
+  if (!session) {
+    return {
+      redirect: {
+        destination: "/auth/signin",
+        permanent: false,
+      },
+    };
+  }
 
-//   return {
-//     props: {
-//       session,
-//     },
-//   };
-// }
+  return {
+    props: {
+      session,
+    },
+  };
+}
 
-const Admin = () => {
+const Admin = ({ session }) => {
   const router = useRouter();
   const { status } = useSession();
 
@@ -99,7 +99,7 @@ const Admin = () => {
   // logs
   console.log("");
   console.log("\x1b[32m/auth/admin\x1b[0m");
-  // console.log("session : ", session);
+  console.log("session : ", session);
   // console.log("status : ", status);
   console.log("");
 
